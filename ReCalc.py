@@ -24,6 +24,8 @@ def is_number(integer):
     except Exception as e:
         return False
 
+# TODO: add predicate for priority separator
+
 # Simple test
 class TestCalc(unittest.TestCase):
 

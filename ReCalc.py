@@ -17,7 +17,7 @@ def tokenize(expr):
         if token in (operators + priorities):
             continue
         else:
-            tokens_list[k] = int(token)
+            tokens_list[k] = float(token)
     return tokens_list
 
 # checks whether a token is an operator
@@ -25,9 +25,9 @@ def is_operation(token):
     return True if token in operators else False
 
 # checks whether a token is a number
-def is_number(integer):
+def is_number(number):
     try:
-        float(integer) #why float&
+        float(number)
         return True
     except Exception as e:
         return False
@@ -86,25 +86,25 @@ def calculate_on_stack(rpn_list):
     return stack.pop()
 
 # Testing input processing functions
-class TestCalc(unittest.TestCase):
+class TestTokenization(unittest.TestCase):
 
     def test_tokenization(self):
         expr = "1 + 2 - 3 * 4 / 5"
         tokens_list = tokenize(expr)
-        expected_list = [1, '+', 2, '-', 3, '*', 4, '/', 5]
+        expected_list = [1.0, '+', 2.0, '-', 3.0, '*', 4.0, '/', 5.0]
         self.assertEqual(tokens_list, expected_list)
 
     def test_is_operation(self):
         self.assertTrue(is_operation('+'))
-        self.assertFalse(is_operation(2))
+        self.assertFalse(is_operation(2.0))
 
     def test_is_number(self):
-        self.assertTrue(is_number('4'))
+        self.assertTrue(is_number('4.0'))
         self.assertFalse(is_number('*'))
 
     def test_is_priority(self):
         self.assertTrue(is_priority('('))
-        self.assertFalse(is_priority(2))
+        self.assertFalse(is_priority(2.0))
 
 # Testing sorting station itself
 class TestSortingStation(unittest.TestCase):
@@ -112,29 +112,30 @@ class TestSortingStation(unittest.TestCase):
     def test_sorting_station_simple(self):
         expr = "1 + 2"
         tokens_list = tokenize(expr)
-        expected_list = [1, 2, '+']
+        expected_list = [1.0, 2.0, '+']
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
 
     def test_sorting_station_ops_priority(self):
         expr = "1 + 2 * 3"
         tokens_list = tokenize(expr)
-        expected_list = [1, 2, 3, '*', '+']
+        expected_list = [1.0, 2.0, 3.0, '*', '+']
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
 
     def test_sorting_station_paren_priority(self):
         expr = "( 1 + 2 ) * 3"
         tokens_list = tokenize(expr)
-        expected_list = [1, 2, '+', 3, '*']
+        expected_list = [1.0, 2.0, '+', 3.0, '*']
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
 
 class TestStackMachine(unittest.TestCase):
 
     def test_calculate_on_stack(self):
-        rpn_list = [1, 2, '+', 3, '*']
+        rpn_list = [1.0, 2.0, '+', 3.0, '*']
         result = calculate_on_stack(rpn_list)
-        expected_result = 9
+        expected_result = 9.0
         self.assertEqual(result, expected_result)
-unittest.main()
+
+unittest.main(verbosity=2)

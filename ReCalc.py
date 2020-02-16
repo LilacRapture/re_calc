@@ -6,6 +6,7 @@ expr = "1 + 2 - 3 * 4 / 5"
 # list of operators
 ops2 = ('*', '/')
 ops1 = ('+', '-')
+operators = ops1 + ops2
 priorities = ('(', ')')
 
 # convert expression to tokens
@@ -13,7 +14,7 @@ def tokenize(expr):
     tokens_list = expr.split()
     for k in range(len(tokens_list)):
         token = tokens_list[k]
-        if token in (ops1 + ops2 + priorities):
+        if token in (operators + priorities):
             continue
         else:
             tokens_list[k] = int(token)
@@ -21,12 +22,12 @@ def tokenize(expr):
 
 # checks whether a token is an operator
 def is_operation(token):
-    return True if token in (ops1 + ops2) else False
+    return True if token in operators else False
 
 # checks whether a token is a number
 def is_number(integer):
     try:
-        float(integer)
+        float(integer) #why float&
         return True
     except Exception as e:
         return False
@@ -35,46 +36,34 @@ def is_number(integer):
 def is_priority(token):
     return True if token in priorities else False
 
+def stack_to_queue(stack, output_queue):
+    output_queue.append(stack.pop())
+
 # sorint station algorithm
 def sorting_station(tokens):
     output_queue = list()
     stack = list()
     for token in tokens:
-        print(token)
-        #print(tokens)
-        print("Stack ", stack)
-        print("Queue ", output_queue)
         if is_number(token):
-            output_queue.append(token)
-        elif token in (ops1 + ops2):
+            output_queue.append(token) # add number to queue
+        elif token in operators:
             if stack != []:
-                print("while started")
                 while (stack[-1] in ops2) and (token != '('):
-                    output_queue.append(stack.pop())
-            stack.append(token)
+                    stack_to_queue(stack, output_queue) # move operator to queue
+            stack.append(token) # add operator to stack
         elif token == '(':
-            stack.append(token)
+            stack.append(token) # add open paren to stack
         elif token == ')':
-            print("SH1", stack[-1])
-
             while stack[-1] != '(':
-                sh = stack.pop()
-                print("SH2", sh)
-                output_queue.append(sh)
+                stack_to_queue(stack, output_queue) # move operator to queue
             if stack[-1] == '(':
-                stack.pop()
+                stack.pop() # discard open paren
         else: pass
-    print("Stack  PF", stack)
-    print("Queue  PF", output_queue)
-
-    while stack != []:
-        output_queue.append(stack.pop())
-    print("Stack  F", stack)
-    print("Queue  F", output_queue)
+    while stack != []: # move the rest of the stack to the queue
+        stack_to_queue(stack, output_queue)
     return output_queue
 
-
-# Simple test
+# Testing input processing functions
 class TestCalc(unittest.TestCase):
 
     def test_tokenization(self):
@@ -95,6 +84,7 @@ class TestCalc(unittest.TestCase):
         self.assertTrue(is_priority('('))
         self.assertFalse(is_priority(2))
 
+# Testing sorting station itself
 class TestSortingStation(unittest.TestCase):
 
     def test_sorting_station_simple(self):
@@ -117,4 +107,5 @@ class TestSortingStation(unittest.TestCase):
         expected_list = [1, 2, '+', 3, '*']
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
+
 unittest.main()

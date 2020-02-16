@@ -63,15 +63,13 @@ def sorting_station(tokens):
         stack_to_queue(stack, output_queue)
     return output_queue
 
-def calculate(op, a, b):
-    if op == '+':
-        return a + b
-    elif op == '-':
-        return a - b
-    elif op == '*':
-        return a * b
-    else:
-        return a / b
+def literal_to_operator(op):
+    return {
+        '+': lambda a, b : a + b,
+        '-': lambda a, b : a - b,
+        '*': lambda a, b : a * b,
+        '/': lambda a, b : a / b,
+        }.get(op)
 
 def calculate_on_stack(rpn_list):
     stack = list()
@@ -82,7 +80,10 @@ def calculate_on_stack(rpn_list):
         else:
             operand_2 = stack.pop()
             operand_1 = stack.pop()
-            stack.append(calculate(token, operand_1, operand_2))
+            operator = literal_to_operator(token)
+            if operator == None:
+                raise ValueError("Not implemented: ", token)
+            stack.append(operator(operand_1, operand_2))
     return stack.pop()
 
 # Testing input processing functions
@@ -110,7 +111,7 @@ class TestTokenization(unittest.TestCase):
 class TestSortingStation(unittest.TestCase):
 
     def test_sorting_station_simple(self):
-        expr = "1 + 2"
+        expr = "1 + 2.0"
         tokens_list = tokenize(expr)
         expected_list = [1.0, 2.0, '+']
         output_queue = sorting_station(tokens_list)
@@ -133,9 +134,14 @@ class TestSortingStation(unittest.TestCase):
 class TestStackMachine(unittest.TestCase):
 
     def test_calculate_on_stack(self):
-        rpn_list = [1.0, 2.0, '+', 3.0, '*']
+        rpn_list = [1.0, 2.0, '+', 3.0, '/']
         result = calculate_on_stack(rpn_list)
-        expected_result = 9.0
+        expected_result = 1.0
         self.assertEqual(result, expected_result)
+
+    def test_not_implemented_op(self):
+        rpn_list = [1.0, 2.0, '$', 3.0, '/']
+        with self.assertRaises(ValueError, msg="Not implemented: $"):
+            calculate_on_stack(rpn_list)
 
 unittest.main(verbosity=2)

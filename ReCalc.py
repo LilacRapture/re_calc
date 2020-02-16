@@ -1,7 +1,10 @@
 import unittest
-
-# temp expression for testing
-expr = "1 + 2 - 3 * 4 / 5"
+# TODO: add power operator
+# TODO: add coverage calculation
+# TODO: break down to modules
+# TODO: add parens balance checks
+# TODO: add functions support
+# TODO: add command line interface
 
 # list of operators
 ops2 = ('*', '/')
@@ -39,7 +42,7 @@ def is_priority(token):
 def stack_to_queue(stack, output_queue):
     output_queue.append(stack.pop())
 
-# sorint station algorithm
+# Sorting station algorithm
 def sorting_station(tokens):
     output_queue = list()
     stack = list()
@@ -63,6 +66,7 @@ def sorting_station(tokens):
         stack_to_queue(stack, output_queue)
     return output_queue
 
+# Operator literal to function
 def literal_to_operator(op):
     return {
         '+': lambda a, b : a + b,
@@ -71,6 +75,7 @@ def literal_to_operator(op):
         '/': lambda a, b : a / b,
         }.get(op)
 
+# Stack machine
 def calculate_on_stack(rpn_list):
     stack = list()
     args = list()

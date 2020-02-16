@@ -63,6 +63,28 @@ def sorting_station(tokens):
         stack_to_queue(stack, output_queue)
     return output_queue
 
+def calculate(op, a, b):
+    if op == '+':
+        return a + b
+    elif op == '-':
+        return a - b
+    elif op == '*':
+        return a * b
+    else:
+        return a / b
+
+def calculate_on_stack(rpn_list):
+    stack = list()
+    args = list()
+    for token in rpn_list:
+        if is_number(token):
+            stack.append(token)
+        else:
+            operand_2 = stack.pop()
+            operand_1 = stack.pop()
+            stack.append(calculate(token, operand_1, operand_2))
+    return stack.pop()
+
 # Testing input processing functions
 class TestCalc(unittest.TestCase):
 
@@ -108,4 +130,11 @@ class TestSortingStation(unittest.TestCase):
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
 
+class TestStackMachine(unittest.TestCase):
+
+    def test_calculate_on_stack(self):
+        rpn_list = [1, 2, '+', 3, '*']
+        result = calculate_on_stack(rpn_list)
+        expected_result = 9
+        self.assertEqual(result, expected_result)
 unittest.main()

@@ -7,10 +7,32 @@ import unittest
 # TODO: add command line interface
 
 # list of operators
+op3 = '**'
 ops2 = ('*', '/')
 ops1 = ('+', '-')
 operators = ops1 + ops2
 priorities = ('(', ')')
+
+operator_properties = {
+    '+': {'precedence': 1,
+          'associativity': 'left',
+          'operator': lambda a, b : a + b},
+    '-': {'precedence': 1,
+          'associativity': 'left',
+          'operator': lambda a, b : a - b},
+    '*': {'precedence': 2,
+          'associativity': 'left',
+          'operator': lambda a, b : a * b},
+    '/': {'precedence': 2,
+          'associativity': 'left',
+          'operator': lambda a, b : a / b},
+    '**':{'precedence': 3,
+          'associativity': 'right',
+          'operator': lambda a, b : a ** b}
+          }
+
+def get_op_properties(literal):
+    return operator_properties.get(literal)
 
 # convert expression to tokens
 def tokenize(expr):
@@ -67,13 +89,13 @@ def sorting_station(tokens):
     return output_queue
 
 # Operator literal to function
-def literal_to_operator(op):
-    return {
-        '+': lambda a, b : a + b,
-        '-': lambda a, b : a - b,
-        '*': lambda a, b : a * b,
-        '/': lambda a, b : a / b,
-        }.get(op)
+# def literal_to_operator(op):
+#     return {
+#         '+': lambda a, b : a + b,
+#         '-': lambda a, b : a - b,
+#         '*': lambda a, b : a * b,
+#         '/': lambda a, b : a / b,
+#         }.get(op)
 
 # Stack machine
 def calculate_on_stack(rpn_list):
@@ -85,9 +107,10 @@ def calculate_on_stack(rpn_list):
         else:
             operand_2 = stack.pop()
             operand_1 = stack.pop()
-            operator = literal_to_operator(token)
-            if operator == None:
+            properties = get_op_properties(token)
+            if properties == None:
                 raise ValueError("Not implemented: ", token)
+            operator = properties['operator']
             stack.append(operator(operand_1, operand_2))
     return stack.pop()
 

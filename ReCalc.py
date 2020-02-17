@@ -1,5 +1,5 @@
 import unittest
-# TODO: add power operator
+
 # TODO: add coverage calculation
 # TODO: break down to modules
 # TODO: add parens balance checks

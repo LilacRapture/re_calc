@@ -7,29 +7,18 @@ import unittest
 # TODO: add command line interface
 
 # list of operators
-op3 = '**'
-ops2 = ('*', '/')
-ops1 = ('+', '-')
-operators = ops1 + ops2
+operators = ('*', '/', '+', '-', '**')
 priorities = ('(', ')')
 
+# literal: (precedence, associativity, operator)
 operator_properties = {
-    '+': {'precedence': 1,
-          'associativity': 'left',
-          'operator': lambda a, b : a + b},
-    '-': {'precedence': 1,
-          'associativity': 'left',
-          'operator': lambda a, b : a - b},
-    '*': {'precedence': 2,
-          'associativity': 'left',
-          'operator': lambda a, b : a * b},
-    '/': {'precedence': 2,
-          'associativity': 'left',
-          'operator': lambda a, b : a / b},
-    '**':{'precedence': 3,
-          'associativity': 'right',
-          'operator': lambda a, b : a ** b}
-          }
+    '(': (0, None, None),
+    ')': (0, None, None),
+    '+': (1, 'left', lambda a, b : a + b),
+    '-': (1, 'left', lambda a, b : a - b),
+    '*': (2, 'left', lambda a, b : a * b),
+    '/': (2, 'left', lambda a, b : a / b),
+    '**': (3, 'right', lambda a, b : a ** b)}
 
 def get_op_properties(literal):
     return operator_properties.get(literal)
@@ -64,6 +53,9 @@ def is_priority(token):
 def stack_to_queue(stack, output_queue):
     output_queue.append(stack.pop())
 
+def head(stack):
+    return stack[-1]
+
 # Sorting station algorithm
 def sorting_station(tokens):
     output_queue = list()
@@ -73,7 +65,12 @@ def sorting_station(tokens):
             output_queue.append(token) # add number to queue
         elif token in operators:
             if stack != []:
-                while (stack[-1] in ops2) and (token != '('):
+                stack_token = head(stack)
+                st_precedence, st_associativity, _ = get_op_properties(stack_token)
+                t_precedence, *_ = get_op_properties(token)
+                while (st_precedence > t_precedence)\
+                      or  (st_precedence == t_precedence and st_associativity == 'left') \
+                      and (token != '('):
                     stack_to_queue(stack, output_queue) # move operator to queue
             stack.append(token) # add operator to stack
         elif token == '(':
@@ -88,15 +85,6 @@ def sorting_station(tokens):
         stack_to_queue(stack, output_queue)
     return output_queue
 
-# Operator literal to function
-# def literal_to_operator(op):
-#     return {
-#         '+': lambda a, b : a + b,
-#         '-': lambda a, b : a - b,
-#         '*': lambda a, b : a * b,
-#         '/': lambda a, b : a / b,
-#         }.get(op)
-
 # Stack machine
 def calculate_on_stack(rpn_list):
     stack = list()
@@ -110,7 +98,7 @@ def calculate_on_stack(rpn_list):
             properties = get_op_properties(token)
             if properties == None:
                 raise ValueError("Not implemented: ", token)
-            operator = properties['operator']
+            _, _, operator = properties
             stack.append(operator(operand_1, operand_2))
     return stack.pop()
 
@@ -159,6 +147,13 @@ class TestSortingStation(unittest.TestCase):
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
 
+    def test_sorting_station_right_associativity(self):
+        expr = "( 1 + 1 ) ** 2"
+        tokens_list = tokenize(expr)
+        expected_list = [1.0, 1.0, '+', 2.0, '**']
+        output_queue = sorting_station(tokens_list)
+        self.assertEqual(output_queue, expected_list)
+
 class TestStackMachine(unittest.TestCase):
 
     def test_calculate_on_stack(self):
@@ -171,5 +166,11 @@ class TestStackMachine(unittest.TestCase):
         rpn_list = [1.0, 2.0, '$', 3.0, '/']
         with self.assertRaises(ValueError, msg="Not implemented: $"):
             calculate_on_stack(rpn_list)
+
+    def test_right_associativity(self):
+        rpn_list = [1.0, 1.0, '+', 2.0, '**']
+        result = calculate_on_stack(rpn_list)
+        expected_result = 4.0
+        self.assertEqual(result, expected_result)
 
 unittest.main(verbosity=2)

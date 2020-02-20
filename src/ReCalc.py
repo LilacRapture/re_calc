@@ -1,6 +1,5 @@
 # TODO: add coverage calculation
 # TODO: add functions support
-# TODO: add command line interface
 # TODO: RegEx tokenizer
 
 import unittest
@@ -11,25 +10,25 @@ priorities = ('(', ')')
 
 # literal: (precedence, associativity, operator)
 operator_properties = {
-    '(': {"priority": 0,
+    '(': {"prc": 0,
           "assoc": None,
           "fun": None},
-    ')': {"priority": 0,
+    ')': {"prc": 0,
           "assoc": None,
           "fun": None},
-    '+': {"priority": 1,
+    '+': {"prc": 1,
           "assoc": 'left',
           "fun": lambda a, b : a + b},
-    '-': {"priority": 1,
+    '-': {"prc": 1,
           "assoc": 'left',
           "fun": lambda a, b : a - b},
-    '*': {"priority": 2,
+    '*': {"prc": 2,
           "assoc": 'left',
           "fun": lambda a, b : a * b},
-    '/': {"priority": 2,
+    '/': {"prc": 2,
           "assoc": 'left',
           "fun": lambda a, b : a / b},
-    '**': {"priority": 3,
+    '**': {"prc": 3,
           "assoc": 'right',
           "fun": lambda a, b : a ** b}}
 
@@ -78,10 +77,10 @@ def sorting_station(tokens):
             output_queue.append(token) # add number to queue
         elif token in operators:
             if stack != []:
-                t_precedence = get_op_prop(token,"priority")
+                t_precedence = get_op_prop(token,"prc")
                 while (stack != []) and \
-                      (get_op_prop(peek(stack),"priority") > t_precedence \
-                      or (get_op_prop(peek(stack),"priority") == t_precedence and \
+                      (get_op_prop(peek(stack),"prc") > t_precedence \
+                      or (get_op_prop(peek(stack),"prc") == t_precedence and \
                           get_op_prop(peek(stack),"assoc") == 'left') \
                       and (peek(stack) != '(')):
                     output_queue.append(stack.pop()) # move operator to queue
@@ -115,6 +114,6 @@ def calculate_on_stack(rpn_list):
             properties = operator_properties.get(token)
             if properties == None:
                 raise NameError("Not implemented: ", token)
-            operator = properties.get("fun")
-            stack.append(operator(operand_1, operand_2))
+            op_function = properties.get("fun")
+            stack.append(op_function(operand_1, operand_2))
     return stack.pop()

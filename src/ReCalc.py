@@ -8,7 +8,7 @@ import unittest
 operators = ('*', '/', '+', '-', '**')
 priorities = ('(', ')')
 
-# literal: (precedence, associativity, operator)
+# literal: (prc=precedence, assoc=associativity, fun=function)
 operator_properties = {
     '(': {"prc": 0,
           "assoc": None,
@@ -31,9 +31,6 @@ operator_properties = {
     '**': {"prc": 3,
           "assoc": 'right',
           "fun": lambda a, b : a ** b}}
-
-# def get_op_properties(literal):
-#     return operator_properties.get(literal)
 
 def get_op_prop(literal, prop_name):
     return operator_properties.get(literal).get(prop_name)

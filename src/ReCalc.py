@@ -11,16 +11,33 @@ priorities = ('(', ')')
 
 # literal: (precedence, associativity, operator)
 operator_properties = {
-    '(': (0, None, None),
-    ')': (0, None, None),
-    '+': (1, 'left', lambda a, b : a + b),
-    '-': (1, 'left', lambda a, b : a - b),
-    '*': (2, 'left', lambda a, b : a * b),
-    '/': (2, 'left', lambda a, b : a / b),
-    '**': (3, 'right', lambda a, b : a ** b)}
+    '(': {"priority": 0,
+          "assoc": None,
+          "fun": None},
+    ')': {"priority": 0,
+          "assoc": None,
+          "fun": None},
+    '+': {"priority": 1,
+          "assoc": 'left',
+          "fun": lambda a, b : a + b},
+    '-': {"priority": 1,
+          "assoc": 'left',
+          "fun": lambda a, b : a - b},
+    '*': {"priority": 2,
+          "assoc": 'left',
+          "fun": lambda a, b : a * b},
+    '/': {"priority": 2,
+          "assoc": 'left',
+          "fun": lambda a, b : a / b},
+    '**': {"priority": 3,
+          "assoc": 'right',
+          "fun": lambda a, b : a ** b}}
 
-def get_op_properties(literal):
-    return operator_properties.get(literal)
+# def get_op_properties(literal):
+#     return operator_properties.get(literal)
+
+def get_op_prop(literal, prop_name):
+    return operator_properties.get(literal).get(prop_name)
 
 # convert expression to tokens
 def tokenize(expr):
@@ -49,6 +66,9 @@ def is_number(number):
 def is_priority(token):
     return True if token in priorities else False
 
+def peek(stack):
+    return stack[-1]
+
 # Sorting station algorithm
 def sorting_station(tokens):
     output_queue = list()
@@ -58,11 +78,12 @@ def sorting_station(tokens):
             output_queue.append(token) # add number to queue
         elif token in operators:
             if stack != []:
-                t_precedence, *_ = get_op_properties(token)
+                t_precedence = get_op_prop(token,"priority")
                 while (stack != []) and \
-                      (get_op_properties(stack[-1])[0] > t_precedence \
-                      or (get_op_properties(stack[-1])[0] == t_precedence and get_op_properties(stack[-1])[1] == 'left') \
-                      and (stack[-1] != '(')):
+                      (get_op_prop(peek(stack),"priority") > t_precedence \
+                      or (get_op_prop(peek(stack),"priority") == t_precedence and \
+                          get_op_prop(peek(stack),"assoc") == 'left') \
+                      and (peek(stack) != '(')):
                     output_queue.append(stack.pop()) # move operator to queue
             stack.append(token) # add operator to stack
         elif token == '(':
@@ -70,13 +91,13 @@ def sorting_station(tokens):
         elif token == ')':
             if stack == [] or '(' not in stack:
                 raise SyntaxError("Mismatched parentheses")
-            while stack[-1] != '(':
+            while peek(stack) != '(':
                 output_queue.append(stack.pop()) # move operator to queue
-            if stack[-1] == '(':
+            if peek(stack) == '(':
                 stack.pop() # discard open paren
         else: pass
     while stack != []: # move the rest of the stack to the queue
-        if stack[-1] in priorities:
+        if peek(stack) in priorities:
             raise SyntaxError("Mismatched parentheses")
         output_queue.append(stack.pop())
     return output_queue
@@ -91,9 +112,9 @@ def calculate_on_stack(rpn_list):
         else:
             operand_2 = stack.pop()
             operand_1 = stack.pop()
-            properties = get_op_properties(token)
+            properties = operator_properties.get(token)
             if properties == None:
                 raise NameError("Not implemented: ", token)
-            _, _, operator = properties
+            operator = properties.get("fun")
             stack.append(operator(operand_1, operand_2))
     return stack.pop()

@@ -59,9 +59,10 @@ def sorting_station(tokens):
         elif token in operators:
             if stack != []:
                 t_precedence, *_ = get_op_properties(token)
-                while ((stack != []) and (get_op_properties(stack[-1])[0] > t_precedence)) \
-                      or ((stack != []) and (get_op_properties(stack[-1])[0] == t_precedence and get_op_properties(stack[-1])[1] == 'left')) \
-                      and ((stack != []) and (stack[-1] != '(')):
+                while (stack != []) and \
+                      (get_op_properties(stack[-1])[0] > t_precedence \
+                      or (get_op_properties(stack[-1])[0] == t_precedence and get_op_properties(stack[-1])[1] == 'left') \
+                      and (stack[-1] != '(')):
                     output_queue.append(stack.pop()) # move operator to queue
             stack.append(token) # add operator to stack
         elif token == '(':

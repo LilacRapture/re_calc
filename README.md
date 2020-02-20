@@ -1,5 +1,5 @@
 # ReCalc
-![Python application](https://github.com/LilacRapture/ReCalc/workflows/Python%20application/badge.svg?branch=master)
+![ci](https://github.com/LilacRapture/ReCalc/workflows/ci/badge.svg?branch=master)
 
 Reimagined calculator.
 Learning project.

@@ -19,13 +19,43 @@ def slice_by_pattern(pattern_string, input_string):
         start_idx, end_idx = match_object.span()
         return (input_string[start_idx:end_idx], input_string[end_idx:])
 
+add_regex = r"(\+)"
+substract_regex = r"(\-)"
+multiply_regex = r"(\*)"
+divide_regex = r"(\/)"
+power_regex = r"(\*\*)"
+
 class TestPatterns(unittest.TestCase):
+
+    # start of the line RegEx
+    line_start = "^"
 
     def test_number(self):
         self.assertRegex("1.44lk", number_regex)
         self.assertRegex("1dfzs", number_regex)
         self.assertRegex(".35dfss", number_regex)
         self.assertNotRegex("lkjl", number_regex)
+
+    def test_add(self):
+        self.assertRegex("+38", self.line_start + add_regex)
+        self.assertNotRegex("2.45+16", self.line_start + add_regex)
+
+    def test_substract(self):
+        self.assertRegex("-2.22", self.line_start + substract_regex)
+        self.assertNotRegex("12-56", self.line_start + substract_regex)
+
+    def test_multiply(self):
+        self.assertRegex("*44", self.line_start + multiply_regex)
+        self.assertNotRegex("87*220", self.line_start + multiply_regex)
+
+    def test_divide(self):
+        self.assertRegex("/3", self.line_start + divide_regex)
+        self.assertNotRegex("78/2", self.line_start + divide_regex)
+
+    def test_power(self):
+        self.assertRegex("**4", self.line_start + power_regex)
+        self.assertNotRegex("8**2", self.line_start + power_regex)
+
 
     def test_slice(self):
         input_string = "134+256"

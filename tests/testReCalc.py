@@ -79,6 +79,20 @@ class TestSortingStation(unittest.TestCase):
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
 
+    def test_sorting_station_function_with_power(self):
+        expr = "2 ** log ( 27 , 3 )"
+        tokens_list = tokenize(expr)
+        expected_list = [2.0, 27.0, 3.0, 'log', '**']
+        output_queue = sorting_station(tokens_list)
+        self.assertEqual(output_queue, expected_list)
+
+    def test_sorting_station_function_with_double_power(self):
+        expr = "3 ** log ( 9 , 3 ) ** 2"
+        tokens_list = tokenize(expr)
+        expected_list = [3.0, 9.0, 3.0, 'log', 2.0, '**', '**']
+        output_queue = sorting_station(tokens_list)
+        self.assertEqual(output_queue, expected_list)
+
 class TestStackMachine(unittest.TestCase):
 
     def test_calculate_on_stack(self):
@@ -102,6 +116,18 @@ class TestStackMachine(unittest.TestCase):
         rpn_list = [1.0, 27.0, 3.0, 'log', '+']
         result = calculate_on_stack(rpn_list)
         expected_result = 4.0
+        self.assertEqual(result, expected_result)
+
+    def test_function_with_power(self):
+        rpn_list = [2.0, 27.0, 3.0, 'log', '**']
+        result = calculate_on_stack(rpn_list)
+        expected_result = 8.0
+        self.assertEqual(result, expected_result)
+
+    def test_function_with_double_power(self):
+        rpn_list = [3.0, 9.0, 3.0, 'log', 2.0, '**', '**']
+        result = calculate_on_stack(rpn_list)
+        expected_result = 81.0
         self.assertEqual(result, expected_result)
 
 if __name__ == '__main__':

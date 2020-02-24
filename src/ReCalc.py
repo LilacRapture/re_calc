@@ -8,12 +8,8 @@ import unittest
 # literal: {prc: precedence, assoc: associativity, fun: function, type: type}
 token_properties = {
     '(': {'prc': 0,
-          'assoc': None,
-          'fun': None,
           'type': "paren"},
     ')': {'prc': 0,
-          'assoc': None,
-          'fun': None,
           'type': "paren"},
     '+': {'prc': 1,
           'assoc': 'left',
@@ -36,10 +32,8 @@ token_properties = {
           'fun': lambda a, b : a ** b,
           'type': "operator"},
     ',': {'prc': 0,
-          'assoc': None,
-          'fun': None,
           'type': "separator"},
-    'log': {'prc': 3,
+    'log': {'prc': 4,
             'assoc': 'left',
             'fun': lambda a, b : log(a, b),
             'type': "function"}}

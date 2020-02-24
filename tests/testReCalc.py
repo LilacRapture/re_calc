@@ -72,6 +72,12 @@ class TestSortingStation(unittest.TestCase):
         with self.assertRaises(SyntaxError, msg="Mismatched parentheses"):
             sorting_station(tokens_list)
 
+    def test_sorting_station_function(self):
+        expr = "1 + log ( 27 , 3 )"
+        tokens_list = tokenize(expr)
+        expected_list = [1.0, 27.0, 3.0, 'log', '+']
+        output_queue = sorting_station(tokens_list)
+        self.assertEqual(output_queue, expected_list)
 
 class TestStackMachine(unittest.TestCase):
 
@@ -88,6 +94,12 @@ class TestStackMachine(unittest.TestCase):
 
     def test_right_associativity(self):
         rpn_list = [1.0, 1.0, '+', 2.0, '**']
+        result = calculate_on_stack(rpn_list)
+        expected_result = 4.0
+        self.assertEqual(result, expected_result)
+
+    def test_function(self):
+        rpn_list = [1.0, 27.0, 3.0, 'log', '+']
         result = calculate_on_stack(rpn_list)
         expected_result = 4.0
         self.assertEqual(result, expected_result)

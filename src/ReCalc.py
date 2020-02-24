@@ -2,45 +2,68 @@
 # TODO: add functions support
 # TODO: RegEx tokenizer
 
+from math import log
 import unittest
 
-# list of operators
-operators = ('*', '/', '+', '-', '**')
-priorities = ('(', ')')
-
-# literal: (prc=precedence, assoc=associativity, fun=function)
-operator_properties = {
+# literal: {prc: precedence, assoc: associativity, fun: function, type: type}
+token_properties = {
     '(': {"prc": 0,
           "assoc": None,
-          "fun": None},
+          "fun": None,
+          "type": "paren"},
     ')': {"prc": 0,
           "assoc": None,
-          "fun": None},
+          "fun": None,
+          "type": "paren"},
     '+': {"prc": 1,
           "assoc": 'left',
-          "fun": lambda a, b : a + b},
+          "fun": lambda a, b : a + b,
+          "type": "operator"},
     '-': {"prc": 1,
           "assoc": 'left',
-          "fun": lambda a, b : a - b},
+          "fun": lambda a, b : a - b,
+          "type": "operator"},
     '*': {"prc": 2,
           "assoc": 'left',
-          "fun": lambda a, b : a * b},
+          "fun": lambda a, b : a * b,
+          "type": "operator"},
     '/': {"prc": 2,
           "assoc": 'left',
-          "fun": lambda a, b : a / b},
+          "fun": lambda a, b : a / b,
+          "type": "operator"},
     '**': {"prc": 3,
           "assoc": 'right',
-          "fun": lambda a, b : a ** b}}
+          "fun": lambda a, b : a ** b,
+          "type": "operator"},
+    ',': {"prc": 0,
+          "assoc": None,
+          "fun": None,
+          "type": "separator"},
+    'log': {"prc": 0,
+            "assoc": 'left',
+            "fun": lambda a, b : log(a, b),
+            "type": "function"}}
 
-def get_op_prop(literal, prop_name):
-    return operator_properties.get(literal).get(prop_name)
+def tokens_by_type(token_properties, type):
+    return list(dict((token, props) for token, props in token_properties.items() \
+           if props.get('type') == type).keys())
+
+# extracting token lists by their priority type
+operators = tokens_by_type(token_properties, "operator")
+functions = tokens_by_type(token_properties, "function")
+priorities = tokens_by_type(token_properties, "paren")
+separators = tokens_by_type(token_properties, "separator")
+
+# get token property by literal and property name
+def get_token_prop(literal, prop_name):
+    return token_properties.get(literal).get(prop_name)
 
 # convert expression to tokens
 def tokenize(expr):
     tokens_list = expr.split()
     for k in range(len(tokens_list)):
         token = tokens_list[k]
-        if token in (operators + priorities):
+        if token in (operators + priorities + functions + separators):
             continue
         else:
             tokens_list[k] = float(token)
@@ -58,6 +81,10 @@ def is_number(number):
     except Exception as e:
         return False
 
+#TODO: add test
+def is_function(token):
+    return True if token in functions else False
+
 # checks whether a token is a priority separator
 def is_priority(token):
     return True if token in priorities else False
@@ -72,13 +99,20 @@ def sorting_station(tokens):
     for token in tokens:
         if is_number(token):
             output_queue.append(token) # add number to queue
+        elif is_function(token):
+            stack.append(token) # add function to stack
+        elif token in separators:
+            if stack == [] or '(' not in stack:
+                raise SyntaxError("Missing parentheses or separator")
+            while (stack != []) and peek(stack) != "(":
+                output_queue.append(stack.pop()) # move operator to queue
         elif token in operators:
             if stack != []:
-                t_precedence = get_op_prop(token,"prc")
+                t_precedence = get_token_prop(token,"prc")
                 while (stack != []) and \
-                      (get_op_prop(peek(stack),"prc") > t_precedence \
-                      or (get_op_prop(peek(stack),"prc") == t_precedence and \
-                          get_op_prop(peek(stack),"assoc") == 'left') \
+                      (get_token_prop(peek(stack),"prc") > t_precedence \
+                      or (get_token_prop(peek(stack),"prc") == t_precedence and \
+                          get_token_prop(peek(stack),"assoc") == 'left') \
                       and (peek(stack) != '(')):
                     output_queue.append(stack.pop()) # move operator to queue
             stack.append(token) # add operator to stack
@@ -88,7 +122,7 @@ def sorting_station(tokens):
             if stack == [] or '(' not in stack:
                 raise SyntaxError("Mismatched parentheses")
             while peek(stack) != '(':
-                output_queue.append(stack.pop()) # move operator to queue
+                output_queue.append(stack.pop()) # move operator or function to queue
             if peek(stack) == '(':
                 stack.pop() # discard open paren
         else: pass
@@ -108,7 +142,7 @@ def calculate_on_stack(rpn_list):
         else:
             operand_2 = stack.pop()
             operand_1 = stack.pop()
-            properties = operator_properties.get(token)
+            properties = token_properties.get(token)
             if properties == None:
                 raise NameError("Not implemented: ", token)
             op_function = properties.get("fun")

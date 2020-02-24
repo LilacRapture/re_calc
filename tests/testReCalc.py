@@ -73,9 +73,9 @@ class TestSortingStation(unittest.TestCase):
             sorting_station(tokens_list)
 
     def test_sorting_station_function(self):
-        expr = "1 + log ( 27 , 3 )"
+        expr = "1 + log ( 27 , 3 ) * 3"
         tokens_list = tokenize(expr)
-        expected_list = [1.0, 27.0, 3.0, 'log', '+']
+        expected_list = [1.0, 27.0, 3.0, 'log', 3.0, '*', '+']
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
 

@@ -7,42 +7,42 @@ import unittest
 
 # literal: {prc: precedence, assoc: associativity, fun: function, type: type}
 token_properties = {
-    '(': {"prc": 0,
-          "assoc": None,
-          "fun": None,
-          "type": "paren"},
-    ')': {"prc": 0,
-          "assoc": None,
-          "fun": None,
-          "type": "paren"},
-    '+': {"prc": 1,
-          "assoc": 'left',
-          "fun": lambda a, b : a + b,
-          "type": "operator"},
-    '-': {"prc": 1,
-          "assoc": 'left',
-          "fun": lambda a, b : a - b,
-          "type": "operator"},
-    '*': {"prc": 2,
-          "assoc": 'left',
-          "fun": lambda a, b : a * b,
-          "type": "operator"},
-    '/': {"prc": 2,
-          "assoc": 'left',
-          "fun": lambda a, b : a / b,
-          "type": "operator"},
-    '**': {"prc": 3,
-          "assoc": 'right',
-          "fun": lambda a, b : a ** b,
-          "type": "operator"},
-    ',': {"prc": 0,
-          "assoc": None,
-          "fun": None,
-          "type": "separator"},
-    'log': {"prc": 0,
-            "assoc": 'left',
-            "fun": lambda a, b : log(a, b),
-            "type": "function"}}
+    '(': {'prc': 0,
+          'assoc': None,
+          'fun': None,
+          'type': "paren"},
+    ')': {'prc': 0,
+          'assoc': None,
+          'fun': None,
+          'type': "paren"},
+    '+': {'prc': 1,
+          'assoc': 'left',
+          'fun': lambda a, b : a + b,
+          'type': "operator"},
+    '-': {'prc': 1,
+          'assoc': 'left',
+          'fun': lambda a, b : a - b,
+          'type': "operator"},
+    '*': {'prc': 2,
+          'assoc': 'left',
+          'fun': lambda a, b : a * b,
+          'type': "operator"},
+    '/': {'prc': 2,
+          'assoc': 'left',
+          'fun': lambda a, b : a / b,
+          'type': "operator"},
+    '**': {'prc': 3,
+          'assoc': 'right',
+          'fun': lambda a, b : a ** b,
+          'type': "operator"},
+    ',': {'prc': 0,
+          'assoc': None,
+          'fun': None,
+          'type': "separator"},
+    'log': {'prc': 3,
+            'assoc': 'left',
+            'fun': lambda a, b : log(a, b),
+            'type': "function"}}
 
 def tokens_by_type(token_properties, type):
     return list(dict((token, props) for token, props in token_properties.items() \
@@ -108,11 +108,11 @@ def sorting_station(tokens):
                 output_queue.append(stack.pop()) # move operator to queue
         elif token in operators:
             if stack != []:
-                t_precedence = get_token_prop(token,"prc")
+                t_precedence = get_token_prop(token,'prc')
                 while (stack != []) and \
-                      (get_token_prop(peek(stack),"prc") > t_precedence \
-                      or (get_token_prop(peek(stack),"prc") == t_precedence and \
-                          get_token_prop(peek(stack),"assoc") == 'left') \
+                      (get_token_prop(peek(stack),'prc') > t_precedence \
+                      or (get_token_prop(peek(stack),'prc') == t_precedence and \
+                          get_token_prop(peek(stack),'assoc') == 'left') \
                       and (peek(stack) != '(')):
                     output_queue.append(stack.pop()) # move operator to queue
             stack.append(token) # add operator to stack
@@ -145,6 +145,6 @@ def calculate_on_stack(rpn_list):
             properties = token_properties.get(token)
             if properties == None:
                 raise NameError("Not implemented: ", token)
-            op_function = properties.get("fun")
+            op_function = properties.get('fun')
             stack.append(op_function(operand_1, operand_2))
     return stack.pop()

@@ -1,17 +1,13 @@
+from ReCalc import control_tokens
 import re
 import unittest
+
 
 integer_regex = r"(\d+)"
 tech_fractional_float = r"(\.\d+)"
 float_regex = r"(\d+\.\d+)"
 # regex for different num formats are joined by "regex OR" separator
 number_regex = r"|".join([float_regex, tech_fractional_float, integer_regex])
-
-add_regex = r"(\+)"
-substract_regex = r"(\-)"
-multiply_regex = r"(\*)"
-divide_regex = r"(\/)"
-power_regex = r"(\^)"
 
 # slices the matching part of the string; returns the matching part and the remaining string
 # if pattern doesn't match returns None
@@ -24,17 +20,35 @@ def slice_by_pattern(pattern_string, input_string):
         start_idx, end_idx = match_object.span()
         return (input_string[start_idx:end_idx], input_string[end_idx:])
 
-# def parse_expression(expression):
-#     parsing_expression = expression
-#     output_queue = list()
-#     while parsing_expression != '':
-#         # try to parse sequentially
-#             # (number
-#             # control token literals (ops, parens, funcs, separators))
-#                 # put parsed_token to output_queue
-#                 # update parse_expression with remaining part
-#             # if nothing found throw Exception
+def slice_by_string(prefix, input_string):
+    if not input_string.startswith(prefix):
+        return None
+    else:
+        chars_to_cut = len(prefix)
+        return (input_string[:chars_to_cut], input_string[chars_to_cut:])
 
+def parse_expression(expression):
+    parsing_expression = expression
+    output_queue = list()
+    while parsing_expression != '':
+        result = slice_by_pattern(number_regex, parsing_expression)
+        if result != None:
+            token, remaining_string = result
+            output_queue.append(token)
+            parsing_expression = remaining_string
+        else:
+            found = False
+            for token in control_tokens:
+                result = slice_by_string(token, parsing_expression)
+                if result != None:
+                    token, remaining_string = result
+                    output_queue.append(token)
+                    parsing_expression = remaining_string
+                    found = True
+                    break
+            if found == False:
+                raise SyntaxError('Unknown token')
+    return output_queue
 
 class TestPatterns(unittest.TestCase):
 
@@ -47,37 +61,33 @@ class TestPatterns(unittest.TestCase):
         self.assertRegex(".35dfss", number_regex)
         self.assertNotRegex("lkjl", number_regex)
 
-    def test_add(self):
-        self.assertRegex("+38", self.line_start + add_regex)
-        self.assertNotRegex("2.45+16", self.line_start + add_regex)
-
-    def test_substract(self):
-        self.assertRegex("-2.22", self.line_start + substract_regex)
-        self.assertNotRegex("12-56", self.line_start + substract_regex)
-
-    def test_multiply(self):
-        self.assertRegex("*44", self.line_start + multiply_regex)
-        self.assertNotRegex("87*220", self.line_start + multiply_regex)
-
-    def test_divide(self):
-        self.assertRegex("/3", self.line_start + divide_regex)
-        self.assertNotRegex("78/2", self.line_start + divide_regex)
-
-    def test_power(self):
-        self.assertRegex("^4", self.line_start + power_regex)
-        self.assertNotRegex("8^2", self.line_start + power_regex)
-
-
-    def test_slice(self):
+    def test_slice_by_pattern(self):
         input_string = "134+256"
         pattern_string = r"\d+"
         result = slice_by_pattern(pattern_string, input_string)
         self.assertEqual(result, ("134", "+256"))
 
-    def test_slice_negative(self):
+    def test_slice_by_pattern_negative(self):
         input_string = "sdf+256"
         pattern_string = r"\d+"
         result = slice_by_pattern(pattern_string, input_string)
         self.assertEqual(result, None)
+
+    def test_slice_by_string(self):
+        input_string = "+98"
+        prefix = "+"
+        result = slice_by_string(prefix, input_string)
+        self.assertEqual(result, ("+", "98"))
+
+    def test_slice_by_string_negative(self):
+        input_string = "78+98"
+        prefix = "-"
+        result = slice_by_string(prefix, input_string)
+        self.assertEqual(result, None)
+
+    def test_parse_expression(self):
+        expression = '7-1/2(2.3+2)'
+        expected_list = ['7', '-', '1', '/', '2', '(', '2.3', '+', '2', ')']
+        self.assertEqual(parse_expression(expression), expected_list)
 
 unittest.main(verbosity=2)

@@ -49,12 +49,14 @@ separators = tokens_by_type(token_properties, "separator")
 def get_token_prop(literal, prop_name):
     return token_properties.get(literal).get(prop_name)
 
+control_tokens = (operators + priorities + functions + separators)
+
 # convert expression to tokens
 def tokenize(expr):
     tokens_list = expr.split()
     for k in range(len(tokens_list)):
         token = tokens_list[k]
-        if token in (operators + priorities + functions + separators):
+        if token in control_tokens:
             continue
         else:
             tokens_list[k] = float(token)

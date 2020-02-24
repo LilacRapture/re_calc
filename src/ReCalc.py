@@ -1,9 +1,6 @@
-# TODO: add coverage calculation
-# TODO: add functions support
-# TODO: RegEx tokenizer
-
 from math import log
 import unittest
+# TODO: add coverage calculation
 
 # literal: {prc: precedence, assoc: associativity, fun: function, type: type}
 token_properties = {
@@ -27,7 +24,7 @@ token_properties = {
           'assoc': 'left',
           'fun': lambda a, b : a / b,
           'type': "operator"},
-    '**': {'prc': 3,
+    '^': {'prc': 3,
           'assoc': 'right',
           'fun': lambda a, b : a ** b,
           'type': "operator"},

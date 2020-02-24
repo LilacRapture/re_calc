@@ -54,9 +54,9 @@ class TestSortingStation(unittest.TestCase):
         self.assertEqual(output_queue, expected_list)
 
     def test_sorting_station_right_associativity(self):
-        expr = "( 1 + 1 ) ** 2"
+        expr = "( 1 + 1 ) ^ 2"
         tokens_list = tokenize(expr)
-        expected_list = [1.0, 1.0, '+', 2.0, '**']
+        expected_list = [1.0, 1.0, '+', 2.0, '^']
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
 
@@ -80,16 +80,16 @@ class TestSortingStation(unittest.TestCase):
         self.assertEqual(output_queue, expected_list)
 
     def test_sorting_station_function_with_power(self):
-        expr = "2 ** log ( 27 , 3 )"
+        expr = "2 ^ log ( 27 , 3 )"
         tokens_list = tokenize(expr)
-        expected_list = [2.0, 27.0, 3.0, 'log', '**']
+        expected_list = [2.0, 27.0, 3.0, 'log', '^']
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
 
     def test_sorting_station_function_with_double_power(self):
-        expr = "3 ** log ( 9 , 3 ) ** 2"
+        expr = "3 ^ log ( 9 , 3 ) ^ 2"
         tokens_list = tokenize(expr)
-        expected_list = [3.0, 9.0, 3.0, 'log', 2.0, '**', '**']
+        expected_list = [3.0, 9.0, 3.0, 'log', 2.0, '^', '^']
         output_queue = sorting_station(tokens_list)
         self.assertEqual(output_queue, expected_list)
 
@@ -107,7 +107,7 @@ class TestStackMachine(unittest.TestCase):
             calculate_on_stack(rpn_list)
 
     def test_right_associativity(self):
-        rpn_list = [1.0, 1.0, '+', 2.0, '**']
+        rpn_list = [1.0, 1.0, '+', 2.0, '^']
         result = calculate_on_stack(rpn_list)
         expected_result = 4.0
         self.assertEqual(result, expected_result)
@@ -119,13 +119,13 @@ class TestStackMachine(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
     def test_function_with_power(self):
-        rpn_list = [2.0, 27.0, 3.0, 'log', '**']
+        rpn_list = [2.0, 27.0, 3.0, 'log', '^']
         result = calculate_on_stack(rpn_list)
         expected_result = 8.0
         self.assertEqual(result, expected_result)
 
     def test_function_with_double_power(self):
-        rpn_list = [3.0, 9.0, 3.0, 'log', 2.0, '**', '**']
+        rpn_list = [3.0, 9.0, 3.0, 'log', 2.0, '^', '^']
         result = calculate_on_stack(rpn_list)
         expected_result = 81.0
         self.assertEqual(result, expected_result)

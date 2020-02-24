@@ -1,5 +1,4 @@
 import re
-import string
 import unittest
 
 integer_regex = r"(\d+)"
@@ -7,6 +6,12 @@ tech_fractional_float = r"(\.\d+)"
 float_regex = r"(\d+\.\d+)"
 # regex for different num formats are joined by "regex OR" separator
 number_regex = r"|".join([float_regex, tech_fractional_float, integer_regex])
+
+add_regex = r"(\+)"
+substract_regex = r"(\-)"
+multiply_regex = r"(\*)"
+divide_regex = r"(\/)"
+power_regex = r"(\^)"
 
 # slices the matching part of the string; returns the matching part and the remaining string
 # if pattern doesn't match returns None
@@ -19,11 +24,17 @@ def slice_by_pattern(pattern_string, input_string):
         start_idx, end_idx = match_object.span()
         return (input_string[start_idx:end_idx], input_string[end_idx:])
 
-add_regex = r"(\+)"
-substract_regex = r"(\-)"
-multiply_regex = r"(\*)"
-divide_regex = r"(\/)"
-power_regex = r"(\*\*)"
+# def parse_expression(expression):
+#     parsing_expression = expression
+#     output_queue = list()
+#     while parsing_expression != '':
+#         # try to parse sequentially
+#             # (number
+#             # control token literals (ops, parens, funcs, separators))
+#                 # put parsed_token to output_queue
+#                 # update parse_expression with remaining part
+#             # if nothing found throw Exception
+
 
 class TestPatterns(unittest.TestCase):
 
@@ -53,8 +64,8 @@ class TestPatterns(unittest.TestCase):
         self.assertNotRegex("78/2", self.line_start + divide_regex)
 
     def test_power(self):
-        self.assertRegex("**4", self.line_start + power_regex)
-        self.assertNotRegex("8**2", self.line_start + power_regex)
+        self.assertRegex("^4", self.line_start + power_regex)
+        self.assertNotRegex("8^2", self.line_start + power_regex)
 
 
     def test_slice(self):

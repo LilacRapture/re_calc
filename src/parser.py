@@ -7,7 +7,8 @@ float_regex = r"(\d+\.\d+)"
 # regex for different num formats are joined by "regex OR" separator
 NUMBER_REGEX = r"|".join([float_regex, tech_fractional_float, integer_regex])
 
-# slices the matching part of the string; returns the matching part and the remaining string
+# slices the matching part of the string using regex;
+# returns the matching part and the remaining string
 # if pattern doesn't match returns None
 def slice_by_pattern(pattern_string, input_string):
     pattern = re.compile(pattern_string)
@@ -26,15 +27,15 @@ def slice_by_string(prefix, input_string):
         chars_to_cut = len(prefix)
         return (prefix, input_string[chars_to_cut:])
 
-# parse expression independent of spaces
+# parses expression independent of spaces
 def parse_expression(expression):
-    parsing_expression = expression
+    parsing_expression = expression # will be rewritten each round
     output_queue = list()
     while parsing_expression != '':
         result = slice_by_pattern(NUMBER_REGEX, parsing_expression)
         if result != None:
             token, remaining_string = result
-            output_queue.append(token)
+            output_queue.append(token) # add number to the output
             parsing_expression = remaining_string
         else:
             found_control_token = False
@@ -42,7 +43,7 @@ def parse_expression(expression):
                 result = slice_by_string(token, parsing_expression)
                 if result != None:
                     token, remaining_string = result
-                    output_queue.append(token)
+                    output_queue.append(token) # add control token to the output
                     parsing_expression = remaining_string
                     found_control_token = True
                     break
@@ -50,6 +51,7 @@ def parse_expression(expression):
                 raise SyntaxError('Unknown token')
     return output_queue
 
+# parses tokens list and convert numbers to floats
 def parse_floats(tokens_list):
     for k in range(len(tokens_list)):
         token = tokens_list[k]
@@ -59,6 +61,7 @@ def parse_floats(tokens_list):
             tokens_list[k] = float(token)
     return tokens_list
 
+# returns tokens list with parsed floats and contol tokens
 def tokenize(expression):
-    tokens_list = parse_expression(expression.replace(' ',''))
+    tokens_list = parse_expression(expression.replace(' ','')) # removes whitespaces
     return parse_floats(tokens_list)

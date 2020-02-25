@@ -3,6 +3,17 @@ from src.parser import *
 from src.ReCalc import *
 import unittest
 
+class TestInputProcessing(unittest.TestCase):
+
+    def test_get_token_prop(self):
+        result = get_token_prop('log', 'assoc')
+        self.assertEqual(result, 'left')
+
+    def test_is_number(self):
+        self.assertTrue(is_number('4.0'))
+        self.assertFalse(is_number('*'))
+
+
 class TestSortingStation(unittest.TestCase):
 
     def test_sorting_station_simple(self):

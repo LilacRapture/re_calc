@@ -1,70 +1,11 @@
-from math import log
+from src.parser import tokenize
+from src.config import *
 import unittest
 # TODO: add coverage calculation
-
-# literal: {prc: precedence, assoc: associativity, fun: function, type: type}
-token_properties = {
-    '(': {'prc': 0,
-          'type': "paren"},
-    ')': {'prc': 0,
-          'type': "paren"},
-    '+': {'prc': 1,
-          'assoc': 'left',
-          'fun': lambda a, b : a + b,
-          'type': "operator"},
-    '-': {'prc': 1,
-          'assoc': 'left',
-          'fun': lambda a, b : a - b,
-          'type': "operator"},
-    '*': {'prc': 2,
-          'assoc': 'left',
-          'fun': lambda a, b : a * b,
-          'type': "operator"},
-    '/': {'prc': 2,
-          'assoc': 'left',
-          'fun': lambda a, b : a / b,
-          'type': "operator"},
-    '^': {'prc': 3,
-          'assoc': 'right',
-          'fun': lambda a, b : a ** b,
-          'type': "operator"},
-    ',': {'prc': 0,
-          'type': "separator"},
-    'log': {'prc': 4,
-            'assoc': 'left',
-            'fun': lambda a, b : log(a, b),
-            'type': "function"}}
-
-def tokens_by_type(token_properties, type):
-    return list(dict((token, props) for token, props in token_properties.items() \
-           if props.get('type') == type).keys())
-
-# extracting token lists by their priority type
-operators = tokens_by_type(token_properties, "operator")
-functions = tokens_by_type(token_properties, "function")
-priorities = tokens_by_type(token_properties, "paren")
-separators = tokens_by_type(token_properties, "separator")
 
 # get token property by literal and property name
 def get_token_prop(literal, prop_name):
     return token_properties.get(literal).get(prop_name)
-
-control_tokens = (operators + priorities + functions + separators)
-
-# convert expression to tokens
-def tokenize(expr):
-    tokens_list = expr.split()
-    for k in range(len(tokens_list)):
-        token = tokens_list[k]
-        if token in control_tokens:
-            continue
-        else:
-            tokens_list[k] = float(token)
-    return tokens_list
-
-# checks whether a token is an operator
-def is_operation(token):
-    return True if token in operators else False
 
 # checks whether a token is a number
 def is_number(number):
@@ -73,14 +14,6 @@ def is_number(number):
         return True
     except Exception as e:
         return False
-
-#TODO: add test
-def is_function(token):
-    return True if token in functions else False
-
-# checks whether a token is a priority separator
-def is_priority(token):
-    return True if token in priorities else False
 
 def peek(stack):
     return stack[-1]
@@ -92,7 +25,7 @@ def sorting_station(tokens):
     for token in tokens:
         if is_number(token):
             output_queue.append(token) # add number to queue
-        elif is_function(token):
+        elif token in functions:
             stack.append(token) # add function to stack
         elif token in separators:
             if stack == [] or '(' not in stack:

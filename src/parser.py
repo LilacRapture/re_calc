@@ -1,4 +1,4 @@
-from src.ReCalc import control_tokens
+from src.config import control_tokens
 import re
 
 integer_regex = r"(\d+)"
@@ -49,3 +49,16 @@ def parse_expression(expression):
             if found_control_token == False:
                 raise SyntaxError('Unknown token')
     return output_queue
+
+def parse_floats(tokens_list):
+    for k in range(len(tokens_list)):
+        token = tokens_list[k]
+        if token in control_tokens:
+            continue
+        else:
+            tokens_list[k] = float(token)
+    return tokens_list
+
+def tokenize(expression):
+    tokens_list = parse_expression(expression.replace(' ',''))
+    return parse_floats(tokens_list)

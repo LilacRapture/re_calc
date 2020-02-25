@@ -1,27 +1,7 @@
+from src.config import token_properties
+from src.parser import *
 from src.ReCalc import *
 import unittest
-
-# Testing input processing functions
-class TestTokenization(unittest.TestCase):
-
-    def test_tokenization(self):
-        expr = "1 + 2 - 3 * 4 / 5"
-        tokens_list = tokenize(expr)
-        expected_list = [1.0, '+', 2.0, '-', 3.0, '*', 4.0, '/', 5.0]
-        self.assertEqual(tokens_list, expected_list)
-
-    def test_is_operation(self):
-        self.assertTrue(is_operation('+'))
-        self.assertFalse(is_operation(2.0))
-
-    def test_is_number(self):
-        self.assertTrue(is_number('4.0'))
-        self.assertFalse(is_number('*'))
-
-    def test_is_priority(self):
-        self.assertTrue(is_priority('('))
-        self.assertFalse(is_priority(2.0))
-
 
 class TestSortingStation(unittest.TestCase):
 

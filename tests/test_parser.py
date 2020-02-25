@@ -1,4 +1,6 @@
 from src.parser import *
+from src.config import *
+from src.ReCalc import *
 import unittest
 
 class TestPatterns(unittest.TestCase):
@@ -39,6 +41,19 @@ class TestParsing(unittest.TestCase):
         expression = '7-1/2(2.3+2)'
         expected_list = ['7', '-', '1', '/', '2', '(', '2.3', '+', '2', ')']
         self.assertEqual(parse_expression(expression), expected_list)
+
+# Testing input processing functions
+class TestTokenization(unittest.TestCase):
+
+    def test_tokenization(self):
+        expr = "1 + 2 - 3 * 4 / 5"
+        tokens_list = tokenize(expr)
+        expected_list = [1.0, '+', 2.0, '-', 3.0, '*', 4.0, '/', 5.0]
+        self.assertEqual(tokens_list, expected_list)
+
+    def test_is_number(self):
+        self.assertTrue(is_number('4.0'))
+        self.assertFalse(is_number('*'))
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -34,8 +34,8 @@ token_properties = {
             'type': "function"}}
 
 def tokens_by_type(token_properties, type):
-    return list(dict((token, props) for token, props in token_properties.items() \
-           if props.get('type') == type).keys())
+    return [token for token in token_properties.keys() \
+        if token_properties.get(token, {}).get('type') == type]
 
 # extracting token lists by their priority type
 operators = tokens_by_type(token_properties, "operator")

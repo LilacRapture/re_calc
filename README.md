@@ -9,12 +9,8 @@ It uses [Shunting-yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_al
 
 # Usage
 
-`python src 1 + 2 - ( 1 / 6.5 )`
-
-In current implementation it's expected that arguments are separated by the space character
+`python src 1+2-(1/6.5)`
 
 ## TODO
 Implement
-* separator independent expression parsing
-* functions support
 * unary operators support

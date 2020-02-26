@@ -44,3 +44,7 @@ priorities = tokens_by_type(token_properties, "paren")
 separators = tokens_by_type(token_properties, "separator")
 
 control_tokens = (operators + priorities + functions + separators)
+
+# get token property by literal and property name
+def get_token_prop(literal, prop_name):
+    return token_properties.get(literal).get(prop_name)

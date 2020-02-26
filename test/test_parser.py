@@ -1,6 +1,5 @@
 from calculator.expression_parser import *
 from calculator.config import *
-from calculator.ReCalc import *
 import unittest
 
 class TestPatterns(unittest.TestCase):
@@ -49,6 +48,3 @@ class TestTokenization(unittest.TestCase):
         tokens_list = tokenize(expr)
         expected_list = [1.0, '+', 2.0, '-', 3.0, '*', 4.0, '/', 5.0]
         self.assertEqual(tokens_list, expected_list)
-
-if __name__ == '__main__':
-    unittest.main(verbosity=2)

@@ -3,7 +3,7 @@ from calculator.config import token_properties
 from calculator.util import is_number
 
 # Stack machine
-def calculate_on_stack(rpn_list):
+def calculate(rpn_list):
     stack = list()
     args = list()
     for token in rpn_list:

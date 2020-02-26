@@ -8,5 +8,5 @@ if __name__ == "__main__":
     expression = " ".join(expression_list)
     tokens = expression_parser.tokenize(expression)
     rpn_list = shunting_yard.sorting_station(tokens)
-    result = stack_machine.calculate_on_stack(rpn_list)
+    result = stack_machine.calculate(rpn_list)
     print(result)

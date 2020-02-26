@@ -4,8 +4,8 @@ from calculator.util import is_number
 def peek(stack):
     return stack[-1]
 
-# Sorting station algorithm
-def sorting_station(tokens):
+# Shunting yard algorithm
+def infix_to_prn(tokens):
     output_queue = list()
     stack = list()
     for token in tokens:

@@ -9,7 +9,17 @@ It uses [Shunting-yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_al
 
 # Usage
 
-`python src 1+2-(1/6.5)`
+clone project, go to cloned directory
+
+`$ cd ReCalc`
+
+then
+
+`$ python -m calculator 1+2-(1/6.5)`
+
+or run it without entering project directory
+
+`$ python -m ReCalc 1+2-(1/6.5)`
 
 ## TODO
 Implement

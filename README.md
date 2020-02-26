@@ -1,5 +1,5 @@
 # ReCalc
-![ci](https://github.com/LilacRapture/ReCalc/workflows/ci/badge.svg?branch=master)
+![test](https://github.com/LilacRapture/ReCalc/workflows/test/badge.svg?branch=master)
 
 Reimagined calculator.
 Learning project.

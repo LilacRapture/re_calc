@@ -1,4 +1,4 @@
-from src.parser import tokenize
+from src.expression_parser import tokenize
 from src.config import *
 import unittest
 # TODO: add coverage calculation

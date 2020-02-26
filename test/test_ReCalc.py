@@ -1,5 +1,5 @@
 from src.config import token_properties
-from src.parser import *
+from src.expression_parser import *
 from src.ReCalc import *
 import unittest
 

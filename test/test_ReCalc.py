@@ -1,6 +1,6 @@
-from src.config import token_properties
-from src.expression_parser import *
-from src.ReCalc import *
+from calculator.config import token_properties
+from calculator.expression_parser import *
+from calculator.ReCalc import *
 import unittest
 
 class TestInputProcessing(unittest.TestCase):

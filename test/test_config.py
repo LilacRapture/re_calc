@@ -1,4 +1,4 @@
-from src.config import tokens_by_type
+from calculator.config import tokens_by_type
 import unittest
 
 class TestConfig(unittest.TestCase):

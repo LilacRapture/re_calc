@@ -1,4 +1,4 @@
-from src.config import control_tokens
+from calculator.config import control_tokens
 import re
 
 integer_regex = r"(\d+)"

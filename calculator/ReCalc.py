@@ -1,5 +1,5 @@
-from src.expression_parser import tokenize
-from src.config import *
+from calculator.expression_parser import tokenize
+from calculator.config import *
 import unittest
 # TODO: add coverage calculation
 

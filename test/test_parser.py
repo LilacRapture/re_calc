@@ -1,6 +1,6 @@
-from src.expression_parser import *
-from src.config import *
-from src.ReCalc import *
+from calculator.expression_parser import *
+from calculator.config import *
+from calculator.ReCalc import *
 import unittest
 
 class TestPatterns(unittest.TestCase):

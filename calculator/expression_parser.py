@@ -27,15 +27,18 @@ def slice_by_string(prefix, input_string):
         chars_to_cut = len(prefix)
         return (prefix, input_string[chars_to_cut:])
 
-# parses expression independent of spaces
-def parse_expression(expression):
-    parsing_expression = expression # will be rewritten each round
+def clean_expression(expression):
+    return expression.replace(' ','')
+
+# returns tokens list with parsed floats and contol tokens
+def tokenize(expression):
+    parsing_expression = clean_expression(expression) # will be rewritten each round
     output_queue = list()
     while parsing_expression != '':
         result = slice_by_pattern(NUMBER_REGEX, parsing_expression)
         if result != None:
             token, remaining_string = result
-            output_queue.append(token) # add number to the output
+            output_queue.append(float(token)) # add number to the output
             parsing_expression = remaining_string
         else:
             found_control_token = False
@@ -50,18 +53,3 @@ def parse_expression(expression):
             if found_control_token == False:
                 raise SyntaxError('Unknown token')
     return output_queue
-
-# parses tokens list and convert numbers to floats
-def parse_floats(tokens_list):
-    for k in range(len(tokens_list)):
-        token = tokens_list[k]
-        if token in control_tokens:
-            continue
-        else:
-            tokens_list[k] = float(token)
-    return tokens_list
-
-# returns tokens list with parsed floats and contol tokens
-def tokenize(expression):
-    tokens_list = parse_expression(expression.replace(' ','')) # removes whitespaces
-    return parse_floats(tokens_list)

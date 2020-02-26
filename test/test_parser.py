@@ -36,15 +36,8 @@ class TestParsing(unittest.TestCase):
         result = parser.slice_by_string(prefix, input_string)
         self.assertEqual(result, None)
 
-    def test_parse_expression(self):
-        expression = '7-1/2(2.3+2)'
-        expected_list = ['7', '-', '1', '/', '2', '(', '2.3', '+', '2', ')']
-        self.assertEqual(parser.parse_expression(expression), expected_list)
-
-class TestTokenization(unittest.TestCase):
-
     def test_tokenization(self):
-        expr = "1 + 2 - 3 * 4 / 5"
+        expr = "1 + 2 - 3.45 * 4 / 5"
         tokens_list = parser.tokenize(expr)
-        expected_list = [1.0, '+', 2.0, '-', 3.0, '*', 4.0, '/', 5.0]
+        expected_list = [1.0, '+', 2.0, '-', 3.45, '*', 4.0, '/', 5.0]
         self.assertEqual(tokens_list, expected_list)

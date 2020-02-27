@@ -1,5 +1,4 @@
 import calculator.expression_parser as parser
-from calculator.config import *
 import unittest
 
 

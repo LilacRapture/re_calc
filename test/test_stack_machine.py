@@ -1,5 +1,4 @@
 import calculator.stack_machine as stack_machine
-from calculator.expression_parser import tokenize
 import unittest
 
 

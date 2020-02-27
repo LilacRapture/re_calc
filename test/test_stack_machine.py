@@ -39,3 +39,9 @@ class TestStackMachine(unittest.TestCase):
         result = stack_machine.calculate(rpn_list)
         expected_result = 81.0
         self.assertEqual(result, expected_result)
+
+    def test_get_arity(self):
+        fun_two_args = lambda a, b: a + b
+        fun_three_args = lambda a, b, c: a**2 + b**2 == c**2
+        self.assertEqual(stack_machine.get_arity(fun_two_args), 2)
+        self.assertEqual(stack_machine.get_arity(fun_three_args), 3)

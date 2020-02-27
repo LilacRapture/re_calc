@@ -3,6 +3,9 @@ from calculator.config import token_properties
 from calculator.util import is_number
 
 
+def get_arity(fun):
+    return fun.__code__.co_argcount
+
 # Stack machine
 def calculate(rpn_list):
     stack = list()

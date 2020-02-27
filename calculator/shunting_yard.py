@@ -16,14 +16,14 @@ def infix_to_prn(tokens):
         elif token in functions:
             stack.append(token)  # add function to stack
         elif token in separators:
-            if stack == [] or '(' not in stack:
+            if not stack or '(' not in stack:
                 raise SyntaxError("Missing parentheses or separator")
-            while (stack != []) and peek(stack) != "(":
+            while stack and peek(stack) != "(":
                 output_queue.append(stack.pop())  # move operator to queue
         elif token in operators:
             if stack: # if stack's not empty
                 t_precedence = get_token_prop(token, 'prc')
-                while (stack != []) and \
+                while stack and \
                         (get_token_prop(peek(stack), 'prc') > t_precedence
                          or (get_token_prop(peek(stack), 'prc') == t_precedence and
                              get_token_prop(peek(stack), 'assoc') == 'left')
@@ -33,7 +33,7 @@ def infix_to_prn(tokens):
         elif token == '(':
             stack.append(token)  # add open paren to stac0k
         elif token == ')':
-            if stack == [] or '(' not in stack:
+            if not stack or '(' not in stack:
                 raise SyntaxError("Mismatched parentheses")
             while peek(stack) != '(':
                 output_queue.append(stack.pop())  # move operator or function to queue

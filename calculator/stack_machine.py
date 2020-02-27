@@ -1,6 +1,5 @@
 from calculator.expression_parser import tokenize
 from calculator.config import token_properties
-from calculator.util import is_number
 
 
 # Use function meta data to get args count
@@ -12,11 +11,11 @@ def get_arity(fun):
 def calculate(rpn_list):
     stack = list()
     for token in rpn_list:
-        if is_number(token):
+        if type(token) is float:
             stack.append(token)
         else:
             properties = token_properties.get(token)
-            if properties is None:
+            if not properties:
                 raise NameError("Not implemented: ", token)
             op_function = properties.get('fun')
             arity = get_arity(op_function)

@@ -45,3 +45,8 @@ class TestStackMachine(unittest.TestCase):
         fun_three_args = lambda a, b, c: a**2 + b**2 == c**2
         self.assertEqual(stack_machine.get_arity(fun_two_args), 2)
         self.assertEqual(stack_machine.get_arity(fun_three_args), 3)
+
+    def test_unary_operator(self):
+        rpn_list = [4.0, 'sqrt']
+        result = stack_machine.calculate(rpn_list)
+        self.assertEqual(result, 2.0)

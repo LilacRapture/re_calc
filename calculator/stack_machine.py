@@ -3,6 +3,7 @@ from calculator.config import token_properties
 from calculator.util import is_number
 
 
+# Use function meta data to get args count
 def get_arity(fun):
     return fun.__code__.co_argcount
 

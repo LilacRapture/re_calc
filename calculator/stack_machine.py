@@ -7,6 +7,7 @@ from calculator.util import is_number
 def get_arity(fun):
     return fun.__code__.co_argcount
 
+
 # Stack machine
 def calculate(rpn_list):
     stack = list()
@@ -15,7 +16,7 @@ def calculate(rpn_list):
             stack.append(token)
         else:
             properties = token_properties.get(token)
-            if properties == None:
+            if properties is None:
                 raise NameError("Not implemented: ", token)
             op_function = properties.get('fun')
             arity = get_arity(op_function)

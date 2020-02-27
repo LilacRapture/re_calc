@@ -33,14 +33,14 @@ token_properties = {
             'fun': lambda a, b: log(a, b),
             'type': "function"},
     'sqrt': {'prc': 4,
-            'assoc': 'left',
-            'fun': lambda a: a**0.5,
-            'type': "function"}}
+             'assoc': 'left',
+             'fun': lambda a: a ** 0.5,
+             'type': "function"}}
 
 
-def tokens_by_type(properties, type):
+def tokens_by_type(properties, token_type):
     return [token for token in properties.keys()
-            if properties.get(token, {}).get('type') == type]
+            if properties.get(token, {}).get('type') == token_type]
 
 
 # extracting token lists by their priority type

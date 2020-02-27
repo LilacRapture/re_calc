@@ -1,6 +1,7 @@
 import calculator.command_line as command_line
 import unittest
 
+
 class TestCommandLine(unittest.TestCase):
 
     def test_process_args(self):

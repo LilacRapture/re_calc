@@ -3,5 +3,5 @@ def is_number(number):
     try:
         float(number)
         return True
-    except Exception as e:
+    except ValueError as e:
         return False

@@ -5,9 +5,9 @@ import unittest
 class TestConfig(unittest.TestCase):
 
     def test_tokens_by_type(self):
-        dict = {')': {'type': "paren"},
-                '+': {'type': "operator"}}
-        result = tokens_by_type(dict, 'operator')
+        props = {')': {'type': "paren"},
+                 '+': {'type': "operator"}}
+        result = tokens_by_type(props, 'operator')
         self.assertEqual(result, ['+'])
 
     def test_get_token_prop(self):

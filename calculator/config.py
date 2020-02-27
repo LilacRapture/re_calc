@@ -31,6 +31,10 @@ token_properties = {
     'log': {'prc': 4,
             'assoc': 'left',
             'fun': lambda a, b: log(a, b),
+            'type': "function"},
+    'sqrt': {'prc': 4,
+            'assoc': 'left',
+            'fun': lambda a: a**0.5,
             'type': "function"}}
 
 

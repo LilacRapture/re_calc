@@ -9,16 +9,18 @@ def get_arity(fun):
 # Stack machine
 def calculate(rpn_list):
     stack = list()
-    args = list()
     for token in rpn_list:
         if is_number(token):
             stack.append(token)
         else:
-            operand_2 = stack.pop()
-            operand_1 = stack.pop()
             properties = token_properties.get(token)
             if properties == None:
                 raise NameError("Not implemented: ", token)
             op_function = properties.get('fun')
-            stack.append(op_function(operand_1, operand_2))
+            arity = get_arity(op_function)
+            args = list()
+            for k in range(arity):
+                args.append(stack.pop())
+            args.reverse()
+            stack.append(op_function(*args))
     return stack.pop()

@@ -2,6 +2,7 @@ import calculator.expression_parser as parser
 from calculator.config import *
 import unittest
 
+
 class TestPattern(unittest.TestCase):
 
     def test_number_regex(self):
@@ -9,6 +10,7 @@ class TestPattern(unittest.TestCase):
         self.assertRegex("1dfzs", parser.NUMBER_REGEX)
         self.assertRegex(".35dfss", parser.NUMBER_REGEX)
         self.assertNotRegex("lkjl", parser.NUMBER_REGEX)
+
 
 class TestParsing(unittest.TestCase):
 

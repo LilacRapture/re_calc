@@ -2,6 +2,7 @@ from calculator.expression_parser import tokenize
 from calculator.config import token_properties
 from calculator.util import is_number
 
+
 # Stack machine
 def calculate(rpn_list):
     stack = list()

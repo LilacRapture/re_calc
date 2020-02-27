@@ -1,6 +1,7 @@
 from calculator.config import tokens_by_type, get_token_prop
 import unittest
 
+
 class TestConfig(unittest.TestCase):
 
     def test_tokens_by_type(self):

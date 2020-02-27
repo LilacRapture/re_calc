@@ -2,6 +2,7 @@ import calculator.shunting_yard as shunting_yard
 from calculator.expression_parser import tokenize
 import unittest
 
+
 class TestShuntingYard(unittest.TestCase):
 
     def test_shunting_yard_simple(self):

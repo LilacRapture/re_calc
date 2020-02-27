@@ -8,34 +8,36 @@ token_properties = {
           'type': "paren"},
     '+': {'prc': 1,
           'assoc': 'left',
-          'fun': lambda a, b : a + b,
+          'fun': lambda a, b: a + b,
           'type': "operator"},
     '-': {'prc': 1,
           'assoc': 'left',
-          'fun': lambda a, b : a - b,
+          'fun': lambda a, b: a - b,
           'type': "operator"},
     '*': {'prc': 2,
           'assoc': 'left',
-          'fun': lambda a, b : a * b,
+          'fun': lambda a, b: a * b,
           'type': "operator"},
     '/': {'prc': 2,
           'assoc': 'left',
-          'fun': lambda a, b : a / b,
+          'fun': lambda a, b: a / b,
           'type': "operator"},
     '^': {'prc': 3,
           'assoc': 'right',
-          'fun': lambda a, b : a ** b,
+          'fun': lambda a, b: a ** b,
           'type': "operator"},
     ',': {'prc': 0,
           'type': "separator"},
     'log': {'prc': 4,
             'assoc': 'left',
-            'fun': lambda a, b : log(a, b),
+            'fun': lambda a, b: log(a, b),
             'type': "function"}}
 
-def tokens_by_type(token_properties, type):
-    return [token for token in token_properties.keys() \
-        if token_properties.get(token, {}).get('type') == type]
+
+def tokens_by_type(properties, type):
+    return [token for token in properties.keys()
+            if properties.get(token, {}).get('type') == type]
+
 
 # extracting token lists by their priority type
 operators = tokens_by_type(token_properties, "operator")
@@ -44,6 +46,7 @@ priorities = tokens_by_type(token_properties, "paren")
 separators = tokens_by_type(token_properties, "separator")
 
 control_tokens = (operators + priorities + functions + separators)
+
 
 # get token property by literal and property name
 def get_token_prop(literal, prop_name):

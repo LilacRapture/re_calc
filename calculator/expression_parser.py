@@ -7,17 +7,19 @@ float_regex = r"(\d+\.\d+)"
 # regex for different num formats are joined by "regex OR" separator
 NUMBER_REGEX = r"|".join([float_regex, tech_fractional_float, integer_regex])
 
+
 # slices the matching part of the string using regex;
 # returns the matching part and the remaining string
 # if pattern doesn't match returns None
 def slice_by_pattern(pattern_string, input_string):
     pattern = re.compile(pattern_string)
     match_object = pattern.match(input_string)
-    if match_object == None:
+    if match_object is None:
         return None
     else:
         start_idx, end_idx = match_object.span()
-        return (input_string[start_idx:end_idx], input_string[end_idx:])
+        return input_string[start_idx:end_idx], input_string[end_idx:]
+
 
 # if string begins with some prefix (control tokens), return prefix and remaining string tuple
 def slice_by_string(prefix, input_string):
@@ -25,31 +27,33 @@ def slice_by_string(prefix, input_string):
         return None
     else:
         chars_to_cut = len(prefix)
-        return (prefix, input_string[chars_to_cut:])
+        return prefix, input_string[chars_to_cut:]
+
 
 def clean_expression(expression):
-    return expression.replace(' ','')
+    return expression.replace(' ', '')
 
-# returns tokens list with parsed floats and contol tokens
+
+# returns tokens list with parsed floats and control tokens
 def tokenize(expression):
-    parsing_expression = clean_expression(expression) # will be rewritten each round
+    parsing_expression = clean_expression(expression)  # will be rewritten each round
     output_queue = list()
     while parsing_expression != '':
         result = slice_by_pattern(NUMBER_REGEX, parsing_expression)
-        if result != None:
+        if result is not None:
             token, remaining_string = result
-            output_queue.append(float(token)) # add number to the output
+            output_queue.append(float(token))  # add number to the output
             parsing_expression = remaining_string
         else:
             found_control_token = False
             for token in control_tokens:
                 result = slice_by_string(token, parsing_expression)
-                if result != None:
+                if result is not None:
                     token, remaining_string = result
-                    output_queue.append(token) # add control token to the output
+                    output_queue.append(token)  # add control token to the output
                     parsing_expression = remaining_string
                     found_control_token = True
                     break
-            if found_control_token == False:
+            if not found_control_token:
                 raise SyntaxError('Unknown token')
     return output_queue

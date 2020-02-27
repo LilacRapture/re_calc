@@ -2,6 +2,7 @@ import calculator.stack_machine as stack_machine
 from calculator.expression_parser import tokenize
 import unittest
 
+
 class TestStackMachine(unittest.TestCase):
 
     def test_stack_machine(self):

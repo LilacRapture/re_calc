@@ -2,6 +2,7 @@ import calculator.expression_parser as expression_parser
 import calculator.shunting_yard as shunting_yard
 import calculator.stack_machine as stack_machine
 
+
 def process_args(args):
     _, *expression_list = args
     expression = " ".join(expression_list)

@@ -21,7 +21,7 @@ def infix_to_prn(tokens):
             while (stack != []) and peek(stack) != "(":
                 output_queue.append(stack.pop())  # move operator to queue
         elif token in operators:
-            if stack:
+            if stack: # if stack's not empty
                 t_precedence = get_token_prop(token, 'prc')
                 while (stack != []) and \
                         (get_token_prop(peek(stack), 'prc') > t_precedence
@@ -39,8 +39,6 @@ def infix_to_prn(tokens):
                 output_queue.append(stack.pop())  # move operator or function to queue
             if peek(stack) == '(':
                 stack.pop()  # discard open paren
-        else:
-            pass
     while stack:  # move the rest of the stack to the queue
         if peek(stack) in priorities:
             raise SyntaxError("Mismatched parentheses")

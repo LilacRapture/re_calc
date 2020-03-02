@@ -15,12 +15,36 @@ clone project, go to cloned directory
 
 then
 
-`$ python -m calculator 1+2-(1/6.5)`
+`$ python -m calculator 1 + 2 - (1 / 6.5) * -5 + 2^3 - (log(9,3) + sqrt(16) + abs(-7))`
 
 or run it without entering project directory
 
-`$ python -m ReCalc 1+2-(1/6.5)`
+`$ python -m ReCalc 1 + 2 - (1 / 6.5) * -5 + 2^3 - (log(9,3) + sqrt(16) + abs(-7))`
+
+### Operations support
+
+`+` - add
+
+`-` - subtract
+
+`*` - multiply
+
+`/` - divide
+
+`^` - power
+
+### Functions support
+
+`log` - logarithm, `log(4, 2)`
+
+`sqrt` - square root
+
+`abs` - absolute value
+
+### Other
+
+Unary signs are also supported. `1 * -5`
 
 ## TODO
 Implement
-* unary operators support
+* aliases for several functions (e.g. `power`)

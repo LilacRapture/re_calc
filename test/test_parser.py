@@ -45,30 +45,30 @@ class TestParsing(unittest.TestCase):
 
     def test_combine_unary_negation(self):
         tokens_list = ['-', 1.0, '-', 12.0, '-', '(', '-', 2.0, '*', '-', 3.0, ')', '-', '-', 5.0]
-        result = parser.combine_unary_negation(tokens_list)
+        result = parser.combine_unary_sign(tokens_list)
         expected_list = [-1.0, '-', 12.0, '-', '(', -2.0, '*', -3.0, ')', '-', -5.0]
         self.assertEqual(expected_list, result)
 
     def test_combine_unary_positivity(self):
         tokens_list = ['+', 1.0, '-', 12.0, '-', '(', '+', 2.0, '*', '+', 3.0, ')', '-', '+', 5.0]
-        result = parser.combine_unary_negation(tokens_list)
+        result = parser.combine_unary_sign(tokens_list)
         expected_list = [1.0, '-', 12.0, '-', '(', 2.0, '*', 3.0, ')', '-', 5.0]
         self.assertEqual(expected_list, result)
 
     def test_combine_unary_negation_pow(self):
         tokens_list = ['-', 1.0, '-', 12.0, '-', '(', '-', 2.0, '^', '-', 3.0, ')', '-', '-', 5.0]
-        result = parser.combine_unary_negation(tokens_list)
+        result = parser.combine_unary_sign(tokens_list)
         expected_list = [-1.0, '-', 12.0, '-', '(', -2.0, '^', -3.0, ')', '-', -5.0]
         self.assertEqual(expected_list, result)
 
     def test_combine_unary_negation_fun(self):
-        tokens_list = [1.0, '-', '-', 'log', '(', 4.0, ',', 2.0, ')', '-', '-', 5.0]
-        result = parser.combine_unary_negation(tokens_list)
-        expected_list = [1.0, '-', -1, '*', 'log', '(', 4.0, ',', 2.0, ')', '-', -5.0]
+        tokens_list = [1.0, '-', '-', 'log', '(', 4.0, ',', 2.0, ')', '-', '-', 'sqrt', '(', 4.0, ')']
+        result = parser.combine_unary_sign(tokens_list)
+        expected_list = [1.0, '-', -1, '*', 'log', '(', 4.0, ',', 2.0, ')', '-', -1, '*', 'sqrt', '(', 4.0, ')']
         self.assertEqual(expected_list, result)
 
     def test_combine_unary_negation_sqrt(self):
         tokens_list = ['-', 'sqrt', '(', 4.0, ')']
-        result = parser.combine_unary_negation(tokens_list)
+        result = parser.combine_unary_sign(tokens_list)
         expected_list = [-1, '*', 'sqrt', '(', 4.0, ')']
         self.assertEqual(expected_list, result)

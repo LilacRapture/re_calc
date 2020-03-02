@@ -60,7 +60,8 @@ def tokenize(expression):
     return output_queue
 
 
-def combine_unary_negation(tokens_list):
+# Combines unary signs with adjacent value
+def combine_unary_sign(tokens_list):
     output_queue = list()
     while tokens_list[:-1]:
         token = tokens_list[0]
@@ -84,3 +85,4 @@ def combine_unary_negation(tokens_list):
             output_queue.append(token)
         tokens_list.pop(0)
     return output_queue + tokens_list
+

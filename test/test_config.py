@@ -4,6 +4,8 @@ import unittest
 
 class TestConfig(unittest.TestCase):
 
+
+
     def test_tokens_by_type(self):
         props = {')': {'type': "paren"},
                  '+': {'type': "operator"}}

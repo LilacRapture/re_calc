@@ -49,3 +49,8 @@ class TestStackMachine(unittest.TestCase):
         rpn_list = [4.0, 'sqrt']
         result = stack_machine.calculate(rpn_list)
         self.assertEqual(result, 2.0)
+
+    def test_abs(self):
+        rpn_list = [1.0, -2.0, 'abs', '-']
+        result = stack_machine.calculate(rpn_list)
+        self.assertEqual(result, -1.0)

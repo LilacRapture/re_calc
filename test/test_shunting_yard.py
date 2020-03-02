@@ -79,3 +79,10 @@ class TestShuntingYard(unittest.TestCase):
         expected_list = [1.0, 9.0, 'sqrt', 2.0, '*', '+']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
         self.assertEqual(output_queue, expected_list)
+
+    def test_shunting_yard_abs(self):
+        expr = "1 - abs(-2)"
+        tokens_list = tokenize(expr)
+        expected_list = [1.0, -2.0, 'abs', '-']
+        output_queue = shunting_yard.infix_to_prn(tokens_list)
+        self.assertEqual(output_queue, expected_list)

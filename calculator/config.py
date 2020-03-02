@@ -35,7 +35,11 @@ token_properties = {
     'sqrt': {'prc': 4,
              'assoc': 'left',
              'fun': lambda a: a ** 0.5,
-             'type': "function"}}
+             'type': "function"},
+    'abs': {'prc': 4,
+            'assoc': 'left',
+            'fun': lambda a: abs(a),
+            'type': "function"}}
 
 
 def tokens_by_type(properties, token_type):

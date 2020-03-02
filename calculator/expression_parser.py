@@ -15,18 +15,14 @@ NUMBER_REGEX = r"|".join([float_regex, tech_fractional_float, integer_regex])
 def slice_by_pattern(pattern_string, input_string):
     pattern = re.compile(pattern_string)
     match_object = pattern.match(input_string)
-    if not match_object:
-        return
-    else:
+    if match_object:
         start_idx, end_idx = match_object.span()
         return input_string[start_idx:end_idx], input_string[end_idx:]
 
 
 # if string begins with some prefix (control tokens), return prefix and remaining string tuple
 def slice_by_string(prefix, input_string):
-    if not input_string.startswith(prefix):
-        return
-    else:
+    if input_string.startswith(prefix):
         chars_to_cut = len(prefix)
         return prefix, input_string[chars_to_cut:]
 

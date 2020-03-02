@@ -1,4 +1,5 @@
-from calculator.config import control_tokens
+from calculator.config import control_tokens, operators, functions
+from calculator.util import is_number
 import re
 
 integer_regex = r"(\d+)"
@@ -57,3 +58,29 @@ def tokenize(expression):
             if not found_control_token:
                 raise SyntaxError('Unknown token')
     return output_queue
+
+
+def combine_unary_negation(tokens_list):
+    output_queue = list()
+    while tokens_list[:-1]:
+        token = tokens_list[0]
+        next_token = tokens_list[1]
+        if not output_queue or output_queue[-1] in operators + ['(']:
+            if token == '-' and is_number(next_token):
+                output_queue.append(next_token * (-1))
+                tokens_list.pop(0)
+            elif token == '+' and is_number(next_token):
+                output_queue.append(next_token)
+                tokens_list.pop(0)
+            elif token == '-' and next_token in functions:
+                output_queue.extend([-1, '*', next_token])
+                tokens_list.pop(0)
+            elif token == '+' and next_token in functions:
+                output_queue.append(next_token)
+                tokens_list.pop(0)
+            else:
+                output_queue.append(token)
+        else:
+            output_queue.append(token)
+        tokens_list.pop(0)
+    return output_queue + tokens_list

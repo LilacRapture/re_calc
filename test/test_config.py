@@ -8,8 +8,8 @@ class TestConfig(unittest.TestCase):
         props = {')': {'type': "paren"},
                  '+': {'type': "operator"}}
         result = tokens_by_type(props, 'operator')
-        self.assertEqual(result, ['+'])
+        self.assertEqual(['+'], result)
 
     def test_get_token_prop(self):
         result = get_token_prop('log', 'assoc')
-        self.assertEqual(result, 'left')
+        self.assertEqual('left', result)

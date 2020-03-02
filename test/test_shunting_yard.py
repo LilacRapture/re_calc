@@ -10,35 +10,35 @@ class TestShuntingYard(unittest.TestCase):
         tokens_list = tokenize(expr)
         expected_list = [1.0, 2.0, '+']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
-        self.assertEqual(output_queue, expected_list)
+        self.assertEqual(expected_list, output_queue)
 
     def test_shunting_yard_ops_priority(self):
         expr = "1 + 2 * 3"
         tokens_list = tokenize(expr)
         expected_list = [1.0, 2.0, 3.0, '*', '+']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
-        self.assertEqual(output_queue, expected_list)
+        self.assertEqual(expected_list, output_queue)
 
     def test_shunting_yard_paren_priority(self):
         expr = "(1 + 2) * 3"
         tokens_list = tokenize(expr)
         expected_list = [1.0, 2.0, '+', 3.0, '*']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
-        self.assertEqual(output_queue, expected_list)
+        self.assertEqual(expected_list, output_queue)
 
     def test_shunting_yard_paren_priority_complex(self):
         expr = "1 + 2 + 3 + (6 / 8)"
         tokens_list = tokenize(expr)
         expected_list = [1, 2, '+', 3, '+', 6, 8, '/', '+']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
-        self.assertEqual(output_queue, expected_list)
+        self.assertEqual(expected_list, output_queue)
 
     def test_shunting_yard_right_associativity(self):
         expr = "(1 + 1) ^ 2"
         tokens_list = tokenize(expr)
         expected_list = [1.0, 1.0, '+', 2.0, '^']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
-        self.assertEqual(output_queue, expected_list)
+        self.assertEqual(expected_list, output_queue)
 
     def test_mismatched_parens_right(self):
         expr = "(1 + 2 (- 3) * 4 / 5 (4 (4 ("
@@ -57,32 +57,32 @@ class TestShuntingYard(unittest.TestCase):
         tokens_list = tokenize(expr)
         expected_list = [1.0, 27.0, 3.0, 'log', 3.0, '*', '+']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
-        self.assertEqual(output_queue, expected_list)
+        self.assertEqual(expected_list, output_queue)
 
     def test_shunting_yard_function_with_power(self):
         expr = "2^log(27 , 3)"
         tokens_list = tokenize(expr)
         expected_list = [2.0, 27.0, 3.0, 'log', '^']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
-        self.assertEqual(output_queue, expected_list)
+        self.assertEqual(expected_list, output_queue)
 
     def test_shunting_yard_function_with_double_power(self):
         expr = "3^log(9 , 3)^2"
         tokens_list = tokenize(expr)
         expected_list = [3.0, 9.0, 3.0, 'log', 2.0, '^', '^']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
-        self.assertEqual(output_queue, expected_list)
+        self.assertEqual(expected_list, output_queue)
 
     def test_shunting_yard_unary(self):
         expr = "1 + sqrt(9)*2"
         tokens_list = tokenize(expr)
         expected_list = [1.0, 9.0, 'sqrt', 2.0, '*', '+']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
-        self.assertEqual(output_queue, expected_list)
+        self.assertEqual(expected_list, output_queue)
 
     def test_shunting_yard_abs(self):
         expr = "1 - abs(-2)"
         tokens_list = tokenize(expr)
         expected_list = [1.0, -2.0, 'abs', '-']
         output_queue = shunting_yard.infix_to_prn(tokens_list)
-        self.assertEqual(output_queue, expected_list)
+        self.assertEqual(expected_list, output_queue)

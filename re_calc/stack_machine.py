@@ -1,5 +1,5 @@
-from calculator.expression_parser import tokenize
-from calculator.config import token_properties
+from re_calc.expression_parser import tokenize
+from re_calc.config import token_properties
 
 
 # Use function meta data to get args count

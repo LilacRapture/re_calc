@@ -1,4 +1,4 @@
-import calculator.stack_machine as stack_machine
+import re_calc.stack_machine as stack_machine
 import unittest
 
 

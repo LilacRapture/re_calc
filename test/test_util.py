@@ -1,4 +1,4 @@
-from calculator.util import is_number
+from re_calc.util import is_number
 import unittest
 
 

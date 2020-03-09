@@ -1,6 +1,6 @@
-import calculator.expression_parser as expression_parser
-import calculator.shunting_yard as shunting_yard
-import calculator.stack_machine as stack_machine
+import re_calc.expression_parser as expression_parser
+import re_calc.shunting_yard as shunting_yard
+import re_calc.stack_machine as stack_machine
 
 
 def process_args(args):

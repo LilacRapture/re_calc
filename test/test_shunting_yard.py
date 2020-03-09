@@ -1,5 +1,5 @@
-import calculator.shunting_yard as shunting_yard
-from calculator.expression_parser import tokenize
+import re_calc.shunting_yard as shunting_yard
+from re_calc.expression_parser import tokenize
 import unittest
 
 

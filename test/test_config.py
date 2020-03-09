@@ -1,4 +1,4 @@
-from calculator.config import tokens_by_type, get_token_prop
+from re_calc.config import tokens_by_type, get_token_prop
 import unittest
 
 

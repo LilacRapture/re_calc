@@ -1,5 +1,5 @@
-from calculator.config import *
-from calculator.util import is_number
+from re_calc.config import *
+from re_calc.util import is_number
 
 
 def peek(stack):

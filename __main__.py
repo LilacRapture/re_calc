@@ -1,4 +1,4 @@
-import calculator.command_line as command_line
+import re_calc.command_line as command_line
 import sys
 
 if __name__ == "__main__":

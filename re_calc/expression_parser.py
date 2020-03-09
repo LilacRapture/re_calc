@@ -1,5 +1,5 @@
-from calculator.config import control_tokens, operators, functions
-from calculator.util import is_number
+from re_calc.config import control_tokens, operators, functions
+from re_calc.util import is_number
 import re
 
 integer_regex = r"(\d+)"

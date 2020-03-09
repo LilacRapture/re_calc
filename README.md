@@ -1,5 +1,5 @@
-# ReCalc
-![test](https://github.com/LilacRapture/ReCalc/workflows/test/badge.svg?branch=master)
+# re_calc
+![test](https://github.com/LilacRapture/re_calc/workflows/test/badge.svg?branch=master)
 
 Reimagined calculator.
 Learning project.
@@ -11,7 +11,7 @@ It uses [Shunting-yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_al
 
 clone project, go to cloned directory
 
-`$ cd ReCalc`
+`$ cd re_calc`
 
 then
 
@@ -19,7 +19,7 @@ then
 
 or run it without entering project directory
 
-`$ python -m ReCalc 1 + 2 - (1 / 6.5) * -5 + 2^3 - (log(9,3) + sqrt(16) + abs(-7))`
+`$ python -m re_calc 1 + 2 - (1 / 6.5) * -5 + 2^3 - (log(9,3) + sqrt(16) + abs(-7))`
 
 ### Operations support
 

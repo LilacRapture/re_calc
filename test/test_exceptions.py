@@ -4,7 +4,7 @@ import re_calc.expression_parser as parser
 import unittest
 
 def excepting_function():
-    raise CalcException(2, ['1', '+', '2'], message='message')
+    raise CalcException(4, ['1', '+', '2.1', '-', '23'], message='message')
 
 def regular_function():
     return 'calc'
@@ -13,7 +13,9 @@ class TestExceptions(unittest.TestCase):
 
     def test_catch_calc_exceptions(self):
         result = exceptions.catch_calc_errors(excepting_function)
-        expected_location = '1 + 2\n    ^'
+        expression_line = '1 + 2.1 - 23'
+        padding_line    = '          ^'
+        expected_location = expression_line + '\n' + padding_line
         self.assertEqual(expected_location, result['error_location'])
 
     def test_catch_calc_exceptions_regular(self):

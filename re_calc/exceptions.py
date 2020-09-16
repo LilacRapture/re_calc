@@ -22,9 +22,11 @@ def process_float_token(token):
 def get_error_location(token_position, tokens_list):
     string_token_list = [process_float_token(token) for token in tokens_list]
     expression_line = ' '.join(string_token_list)
-    padds_count = token_position
-    padd = ' ' * 2
-    padds_line = padd * padds_count + '^'
+
+    processed_tokens = string_token_list[:token_position]
+    token_lenghts = list(map(lambda token: len(token) + 1, processed_tokens))
+    padds_count = sum(token_lenghts)
+    padds_line = ' ' * padds_count + '^'
     return expression_line + '\n' + padds_line
 
 def catch_calc_errors(f):

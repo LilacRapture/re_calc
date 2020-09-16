@@ -1,6 +1,9 @@
 from re_calc.config import control_tokens, operators, functions
 from re_calc.util import is_number
+from re_calc.exceptions import CalcException
+
 import re
+
 
 integer_regex = r"(\d+)"
 tech_fractional_float = r"(\.\d+)"
@@ -79,9 +82,9 @@ def tokenize(expression):
                     found_control_token = True
                     break
             if not found_control_token:
-                raise SyntaxError('Unknown token')
+                combined_token_list = combine_unary_sign(output_queue)
+                combined_token_list.append(parsing_expression)
+                error_tokens = combined_token_list
+                token_position = len(combined_token_list)
+                raise CalcException(token_position, error_tokens, message='Unknown token')
     return combine_unary_sign(output_queue)
-
-
-
-

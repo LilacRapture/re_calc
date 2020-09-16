@@ -13,8 +13,15 @@ class CalcException(Exception):
         self.message = message
         super().__init__(self.message)
 
+def process_float_token(token):
+    if isinstance(token, float):
+        return "{0:g}".format(token)
+    else:
+        return token
+
 def get_error_location(token_position, tokens_list):
-    expression_line = ' '.join(tokens_list)
+    string_token_list = [process_float_token(token) for token in tokens_list]
+    expression_line = ' '.join(string_token_list)
     padds_count = token_position
     padd = ' ' * 2
     padds_line = padd * padds_count + '^'

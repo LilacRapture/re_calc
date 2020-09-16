@@ -13,11 +13,23 @@ class CalcException(Exception):
         self.message = message
         super().__init__(self.message)
 
+def get_error_location(token_position, tokens_list):
+    expression_line = ' '.join(tokens_list)
+    padds_count = token_position
+    padd = ' ' * 2
+    padds_line = padd * padds_count + '^'
+    return expression_line + '\n' + padds_line
+
 def catch_calc_errors(f):
     try:
-        f()
+        return {'result': f(),
+                'status': 'success'}
     except Exception as e:
         if hasattr(e, 'message') and hasattr(e, 'token_position') and hasattr(e, 'tokens_list'):
-            return e.tokens_list
+            return {'message': e.message,
+                    'token_position': e.token_position,
+                    'tokens_list': e.tokens_list,
+                    'error_location': get_error_location(e.token_position, e.tokens_list),
+                    'status': 'error'}
         else:
             raise Exception(message='not implemented')

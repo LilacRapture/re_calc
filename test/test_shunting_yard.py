@@ -41,6 +41,17 @@ class TestShuntingYard(unittest.TestCase):
         output_queue = shunting_yard.infix_to_prn(tokens_list)
         self.assertEqual(expected_list, output_queue)
 
+    @unittest.skip("temp skip")
+    def test_missing_separator(self):
+        expr = "1 + log(27 3) * 3"
+        #tokens_list = tokenize(expr)
+        tokens_list = [1, '+', 'log', '(', 27, 3, ')', '*', 3]
+        print('\n', tokens_list, 'tokens_list')
+        expected_list = [1.0, 27.0, 3.0, 'log', 3.0, '*', '+']
+        print(expected_list, 'expected_list')
+        with self.assertRaises(CalcException, msg="Missing parentheses or separator"):
+            print(shunting_yard.infix_to_prn(tokens_list), 'actual list')
+
     def test_mismatched_parens_right(self):
         expr = "(1 + 2 (- 3) * 4 / 5 (4 (4 ("
         tokens_list = tokenize(expr)

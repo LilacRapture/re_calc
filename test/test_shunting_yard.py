@@ -44,7 +44,7 @@ class TestShuntingYard(unittest.TestCase):
     def test_mismatched_parens_right(self):
         expr = "(1 + 2 (- 3) * 4 / 5 (4 (4 ("
         tokens_list = tokenize(expr)
-        with self.assertRaises(SyntaxError, msg="Mismatched parentheses"):
+        with self.assertRaises(CalcException, msg="Missing close paren(s)"):
             shunting_yard.infix_to_prn(tokens_list)
 
     def test_mismatched_parens_left(self):

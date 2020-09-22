@@ -43,4 +43,10 @@ class TestParserExceptions(unittest.TestCase):
         result = exceptions.catch_calc_errors(lambda: shunting_yard.infix_to_prn(tokens_list))
         print('\n' + result['error_location'])
         self.assertEqual('error', result['status'])
-    
+
+    def test_catch_right_paren_exception(self):
+        expr = "(1 + 2 (- 3) * 4 / 5 (4 (4 ()"
+        tokens_list = parser.tokenize(expr)
+        result = exceptions.catch_calc_errors(lambda: shunting_yard.infix_to_prn(tokens_list))
+        print('\n' + result['error_location'])
+        self.assertEqual('error', result['status'])

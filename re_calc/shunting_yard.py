@@ -1,4 +1,5 @@
 from re_calc.config import *
+from re_calc.exceptions import CalcException
 from re_calc.util import is_number
 
 
@@ -10,14 +11,14 @@ def peek(stack):
 def infix_to_prn(tokens):
     output_queue = list()
     stack = list()
-    for token in tokens:
+    for idx, token in enumerate(tokens):
         if is_number(token):
             output_queue.append(token)  # add number to queue
         elif token in functions:
             stack.append(token)  # add function to stack
         elif token in separators:
             if not stack or '(' not in stack:
-                raise SyntaxError("Missing parentheses or separator")
+                raise CalcException(idx, tokens, message="Missing parentheses or separator")
             while stack and peek(stack) != "(":
                 output_queue.append(stack.pop())  # move operator to queue
         elif token in operators:
@@ -34,7 +35,7 @@ def infix_to_prn(tokens):
             stack.append(token)  # add open paren to stack
         elif token == ')':
             if not stack or '(' not in stack:
-                raise SyntaxError("Mismatched parentheses")
+                raise CalcException(idx, tokens, message="Missing open paren(s)")
             while peek(stack) != '(':
                 output_queue.append(stack.pop())  # move operator or function to queue
             if peek(stack) == '(':

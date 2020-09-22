@@ -1,5 +1,6 @@
 import re_calc.shunting_yard as shunting_yard
 from re_calc.expression_parser import tokenize
+from re_calc.exceptions import CalcException
 import unittest
 
 
@@ -49,7 +50,7 @@ class TestShuntingYard(unittest.TestCase):
     def test_mismatched_parens_left(self):
         expr = "(1 + 2) - 3)) * 4 / 5)"
         tokens_list = tokenize(expr)
-        with self.assertRaises(SyntaxError, msg="Mismatched parentheses"):
+        with self.assertRaises(CalcException, msg="Missing open paren(s)"):
             shunting_yard.infix_to_prn(tokens_list)
 
     def test_shunting_yard_function(self):

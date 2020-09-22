@@ -1,4 +1,5 @@
 import re_calc.exceptions as exceptions
+import re_calc.shunting_yard as shunting_yard
 from re_calc.exceptions import CalcException
 import re_calc.expression_parser as parser
 import unittest
@@ -31,8 +32,15 @@ class TestExceptions(unittest.TestCase):
 
 class TestParserExceptions(unittest.TestCase):
 
-    #@unittest.skip("demonstrating skipping")
     def test_catch_parser_exception(self):
         expr = "1 + 2 - 3.45 + lkjkl * 4 / 5"
         result = exceptions.catch_calc_errors(lambda: parser.tokenize(expr))
         self.assertEqual('error', result['status'])
+
+    def test_catch_left_paren_exception(self):
+        expr = "(1 + 2) - 3)) * 4 / 5)"
+        tokens_list = parser.tokenize(expr)
+        result = exceptions.catch_calc_errors(lambda: shunting_yard.infix_to_prn(tokens_list))
+        print('\n' + result['error_location'])
+        self.assertEqual('error', result['status'])
+    

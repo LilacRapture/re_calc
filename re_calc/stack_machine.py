@@ -1,4 +1,3 @@
-from re_calc.expression_parser import tokenize
 from re_calc.config import token_properties
 
 

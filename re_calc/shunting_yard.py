@@ -6,6 +6,7 @@ from re_calc.util import is_number
 def peek(stack):
     return stack[-1]
 
+
 def should_move_to_queue(stack, c_token_prc):
     if stack:
         s_token = peek(stack)
@@ -18,9 +19,11 @@ def should_move_to_queue(stack, c_token_prc):
     else:
         return False
 
+
 # Use function meta data to get args count
 def get_arity(fun):
     return fun.__code__.co_argcount
+
 
 def arity_is_valid(fn_token, rest_tokens):
     paren_balance = 1
@@ -42,6 +45,7 @@ def arity_is_valid(fn_token, rest_tokens):
         token_idx += 1
     return expected_separator_count == separator_count
 
+
 # Shunting yard algorithm
 def infix_to_prn(tokens):
     output_queue = list()
@@ -54,7 +58,7 @@ def infix_to_prn(tokens):
         elif token in functions:
             n_token_idx = idx + 1
             if ((n_token_idx > len(tokens) - 1)
-                or (tokens[n_token_idx] != "(")):
+                    or (tokens[n_token_idx] != "(")):
                 raise CalcException(idx, tokens, message="Missing function args")
             if not arity_is_valid(token, tokens[idx + 1:]):
                 raise CalcException(idx, tokens, message="Invalid arity")

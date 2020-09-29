@@ -1,5 +1,4 @@
 class CalcException(Exception):
-
     """
     Attributes:
         token_position -- position of the token caused the error
@@ -13,11 +12,13 @@ class CalcException(Exception):
         self.message = message
         super().__init__(self.message)
 
+
 def process_float_token(token):
     if isinstance(token, float):
         return "{0:g}".format(token)
     else:
         return token
+
 
 def get_error_location(token_position, tokens_list):
     string_token_list = [process_float_token(token) for token in tokens_list]
@@ -28,6 +29,7 @@ def get_error_location(token_position, tokens_list):
     padds_count = sum(token_lenghts)
     padds_line = ' ' * padds_count + '^'
     return expression_line + '\n' + padds_line
+
 
 def catch_calc_errors(f):
     try:

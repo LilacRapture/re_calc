@@ -1,5 +1,4 @@
 import re_calc.shunting_yard as shunting_yard
-import re_calc.stack_machine as stack_machine
 from re_calc.expression_parser import tokenize
 from re_calc.exceptions import CalcException
 import unittest
@@ -57,13 +56,13 @@ class TestShuntingYard(unittest.TestCase):
     def test_mismatched_parens_right(self):
         expr = "(1 + 2 (- 3) * 4 / 5 (4 (4 ("
         tokens_list = tokenize(expr)
-        with self.assertRaisesRegex(CalcException, "Missing close paren\(s\)"):
+        with self.assertRaisesRegex(CalcException, r'Missing close paren\(s\)'):
             shunting_yard.infix_to_prn(tokens_list)
 
     def test_mismatched_parens_left(self):
         expr = "(1 + 2) - 3)) * 4 / 5)"
         tokens_list = tokenize(expr)
-        with self.assertRaisesRegex(CalcException, "Missing open paren\(s\)"):
+        with self.assertRaisesRegex(CalcException, r'Missing open paren\(s\)'):
             shunting_yard.infix_to_prn(tokens_list)
 
     def test_shunting_yard_function(self):

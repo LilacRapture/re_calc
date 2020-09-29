@@ -4,11 +4,14 @@ from re_calc.exceptions import CalcException
 import re_calc.expression_parser as parser
 import unittest
 
+
 def excepting_function():
     raise CalcException(4, ['1', '+', '2.1', '-', '23'], message='message')
 
+
 def regular_function():
     return 'calc'
+
 
 class TestExceptions(unittest.TestCase):
 
@@ -29,6 +32,7 @@ class TestExceptions(unittest.TestCase):
         self.assertEqual('1', result)
         result_fractional = exceptions.process_float_token(1.23)
         self.assertEqual('1.23', result_fractional)
+
 
 class TestParserExceptions(unittest.TestCase):
 

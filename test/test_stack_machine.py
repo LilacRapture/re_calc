@@ -12,7 +12,7 @@ class TestStackMachine(unittest.TestCase):
 
     def test_not_implemented_op(self):
         rpn_list = [1.0, 2.0, '$', 3.0, '/']
-        with self.assertRaisesRegex(NameError, "Not implemented: \$"):
+        with self.assertRaisesRegex(NameError, r'Not implemented: \$'):
             stack_machine.calculate(rpn_list)
 
     def test_right_associativity(self):

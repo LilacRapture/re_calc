@@ -1,4 +1,5 @@
 import re_calc.shunting_yard as shunting_yard
+import re_calc.stack_machine as stack_machine
 from re_calc.expression_parser import tokenize
 from re_calc.exceptions import CalcException
 import unittest
@@ -41,27 +42,28 @@ class TestShuntingYard(unittest.TestCase):
         output_queue = shunting_yard.infix_to_prn(tokens_list)
         self.assertEqual(expected_list, output_queue)
 
-    @unittest.skip("temp skip")
-    def test_missing_separator(self):
-        expr = "1 + log(27 3) * 3"
-        #tokens_list = tokenize(expr)
-        tokens_list = [1, '+', 'log', '(', 27, 3, ')', '*', 3]
-        print('\n', tokens_list, 'tokens_list')
-        expected_list = [1.0, 27.0, 3.0, 'log', 3.0, '*', '+']
-        print(expected_list, 'expected_list')
-        with self.assertRaises(CalcException, msg="Missing parentheses or separator"):
+    def test_invalid_arity(self):
+        expr = "1 + log(27 , 3 , 4, 5)  * 3"
+        tokens_list = tokenize(expr)
+        with self.assertRaisesRegex(CalcException, "Invalid arity"):
+            print(shunting_yard.infix_to_prn(tokens_list), 'actual list')
+
+    def test_missing_fn_args(self):
+        expr = "1 + log 27 , 3 * 3"
+        tokens_list = tokenize(expr)
+        with self.assertRaisesRegex(CalcException, "Missing function args"):
             print(shunting_yard.infix_to_prn(tokens_list), 'actual list')
 
     def test_mismatched_parens_right(self):
         expr = "(1 + 2 (- 3) * 4 / 5 (4 (4 ("
         tokens_list = tokenize(expr)
-        with self.assertRaises(CalcException, msg="Missing close paren(s)"):
+        with self.assertRaisesRegex(CalcException, "Missing close paren\(s\)"):
             shunting_yard.infix_to_prn(tokens_list)
 
     def test_mismatched_parens_left(self):
         expr = "(1 + 2) - 3)) * 4 / 5)"
         tokens_list = tokenize(expr)
-        with self.assertRaises(CalcException, msg="Missing open paren(s)"):
+        with self.assertRaisesRegex(CalcException, "Missing open paren\(s\)"):
             shunting_yard.infix_to_prn(tokens_list)
 
     def test_shunting_yard_function(self):

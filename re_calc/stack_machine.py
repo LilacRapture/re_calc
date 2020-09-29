@@ -16,7 +16,7 @@ def calculate(rpn_list):
         else:
             properties = token_properties.get(token)
             if not properties:
-                raise NameError("Not implemented: ", token)
+                raise NameError("Not implemented: " + token)
             op_function = properties.get('fun')
             arity = get_arity(op_function)
             args = list()

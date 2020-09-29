@@ -18,6 +18,30 @@ def should_move_to_queue(stack, c_token_prc):
     else:
         return False
 
+# Use function meta data to get args count
+def get_arity(fun):
+    return fun.__code__.co_argcount
+
+def arity_is_valid(fn_token, rest_tokens):
+    paren_balance = 1
+    properties = token_properties.get(fn_token)
+    op_function = properties.get('fun')
+    arity = get_arity(op_function)
+    expected_separator_count = arity - 1
+    arg_tokens = rest_tokens[1:]
+    token_idx = 0
+    separator_count = 0
+    while token_idx < len(arg_tokens) and paren_balance != 0:
+        c_token = arg_tokens[token_idx]
+        if c_token == '(':
+            paren_balance += 1
+        elif c_token == ')':
+            paren_balance -= 1
+        elif (c_token in separators) and (paren_balance == 1):
+            separator_count += 1
+        token_idx += 1
+    return expected_separator_count == separator_count
+
 # Shunting yard algorithm
 def infix_to_prn(tokens):
     output_queue = list()
@@ -28,6 +52,12 @@ def infix_to_prn(tokens):
         if is_number(token):
             output_queue.append(token)  # add number to queue
         elif token in functions:
+            n_token_idx = idx + 1
+            if ((n_token_idx > len(tokens) - 1)
+                or (tokens[n_token_idx] != "(")):
+                raise CalcException(idx, tokens, message="Missing function args")
+            if not arity_is_valid(token, tokens[idx + 1:]):
+                raise CalcException(idx, tokens, message="Invalid arity")
             stack.append(token)  # add function to stack
             idx_stack.append(idx)
         elif token in separators:

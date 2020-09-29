@@ -30,10 +30,6 @@ def slice_by_string(prefix, input_string):
         return prefix, input_string[chars_to_cut:]
 
 
-def clean_expression(expression):
-    return expression.replace(' ', '')
-
-
 # Combines unary signs with adjacent value
 def combine_unary_sign(tokens_list):
     output_queue = list()
@@ -63,14 +59,14 @@ def combine_unary_sign(tokens_list):
 
 # returns tokens list with parsed floats and control tokens
 def tokenize(expression):
-    parsing_expression = clean_expression(expression)  # will be rewritten each round
+    parsing_expression = expression.strip()
     output_queue = list()
     while parsing_expression != '':
         result = slice_by_pattern(NUMBER_REGEX, parsing_expression)
         if result:
             token, remaining_string = result
             output_queue.append(float(token))  # add number to the output
-            parsing_expression = remaining_string
+            parsing_expression = remaining_string.strip()
         else:
             found_control_token = False
             for token in control_tokens:
@@ -78,13 +74,14 @@ def tokenize(expression):
                 if result:
                     token, remaining_string = result
                     output_queue.append(token)  # add control token to the output
-                    parsing_expression = remaining_string
+                    parsing_expression = remaining_string.strip()
                     found_control_token = True
                     break
             if not found_control_token:
                 combined_token_list = combine_unary_sign(output_queue)
                 combined_token_list.append(parsing_expression)
                 error_tokens = combined_token_list
+                print(error_tokens)
                 token_position = len(combined_token_list)
                 raise CalcException(token_position, error_tokens, message='Unknown token')
     return combine_unary_sign(output_queue)

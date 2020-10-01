@@ -1,4 +1,5 @@
 import re_calc.stack_machine as stack_machine
+from re_calc.exceptions import MathException
 import unittest
 
 
@@ -54,3 +55,13 @@ class TestStackMachine(unittest.TestCase):
         rpn_list = [1.0, -2.0, 'abs', '-']
         result = stack_machine.calculate(rpn_list)
         self.assertEqual(-1.0, result)
+
+    def test_divide_by_zero(self):
+        rpn_list = [1.0, 0.0, '/']
+        with self.assertRaisesRegex(MathException, "Division by zero"):
+            stack_machine.calculate(rpn_list)
+
+    def test_log_error(self):
+        rpn_list = [-1.0, 1.0, 'log']
+        with self.assertRaisesRegex(MathException, "Out of log function domain"):
+            stack_machine.calculate(rpn_list)

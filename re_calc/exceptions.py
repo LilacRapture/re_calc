@@ -12,6 +12,15 @@ class CalcException(Exception):
         self.message = message
         super().__init__(self.message)
 
+class MathException(Exception):
+    """
+    Attribute:
+        message -- explanation
+    """
+
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
 
 def process_float_token(token):
     if isinstance(token, float):
@@ -35,12 +44,14 @@ def catch_calc_errors(f):
     try:
         return {'result': f(),
                 'status': 'success'}
-    except Exception as e:
+    except CalcException as e:
         if hasattr(e, 'message') and hasattr(e, 'token_position') and hasattr(e, 'tokens_list'):
             return {'message': e.message,
                     'token_position': e.token_position,
                     'tokens_list': e.tokens_list,
                     'error_location': get_error_location(e.token_position, e.tokens_list),
                     'status': 'error'}
-        else:
-            raise Exception(message='not implemented')
+    except (MathException, Exception) as e:
+        if hasattr(e, 'message'):
+            return {'message': e.message,
+                    'status': 'error'}

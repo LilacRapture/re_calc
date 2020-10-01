@@ -1,7 +1,9 @@
 import re_calc.exceptions as exceptions
 import re_calc.shunting_yard as shunting_yard
-from re_calc.exceptions import CalcException
+import re_calc.stack_machine as stack_machine
 import re_calc.expression_parser as parser
+from re_calc.exceptions import CalcException
+
 import unittest
 
 
@@ -54,3 +56,12 @@ class TestParserExceptions(unittest.TestCase):
         result = exceptions.catch_calc_errors(lambda: shunting_yard.infix_to_prn(tokens_list))
         print('\n' + result['error_location'])
         self.assertEqual('error', result['status'])
+
+class TestStackMachineExceptions(unittest.TestCase):
+
+    def test_catch_division_by_zero(self):
+        rpn_list = [1.0, 0.0, '/']
+        result = exceptions.catch_calc_errors(lambda: stack_machine.calculate(rpn_list))
+        print("res", result)
+        self.assertEqual('error', result['status'])
+        self.assertEqual('Division by zero', result['message'])

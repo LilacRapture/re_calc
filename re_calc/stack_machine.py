@@ -1,4 +1,5 @@
 from re_calc.config import token_properties
+from re_calc.exceptions import MathException
 
 
 # Use function meta data to get args count
@@ -22,5 +23,12 @@ def calculate(rpn_list):
             for k in range(arity):
                 args.append(stack.pop())
             args.reverse()
-            stack.append(op_function(*args))
+            try:
+                stack.append(op_function(*args))
+            except ZeroDivisionError as e:
+                raise MathException(message="Division by zero")
+            except ValueError as e:
+                if token == 'log':
+                    raise MathException(message="Out of log function domain")
+
     return stack.pop()

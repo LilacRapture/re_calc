@@ -53,8 +53,6 @@ def infix_to_rpn(tokens):
     meta_tokens = meta_containers.set_meta_indices(tokens)
     output_queue = list()
     stack = list()
-    idx_stack = list()  # keeps input queue token indices
-                        # corresponding to its position in stack
     for idx, token in enumerate(meta_tokens):
         if is_number(token):
             output_queue.append(token)  # add number to queue
@@ -62,40 +60,32 @@ def infix_to_rpn(tokens):
             n_token_idx = idx + 1
             if ((n_token_idx > len(meta_tokens) - 1)
                     or (meta_tokens[n_token_idx] != "(")):
-                raise CalcException(idx, meta_tokens, message="Missing function args")
+                raise CalcException(token.meta, meta_tokens, message="Missing function args")
             if not arity_is_valid(token, meta_tokens[idx + 1:]):
-                raise CalcException(idx, meta_tokens, message="Invalid arity")
+                raise CalcException(token.meta, meta_tokens, message="Invalid arity")
             stack.append(token)  # add function to stack
-            idx_stack.append(idx)
         elif token in separators:
             if not stack or '(' not in stack:
-                raise CalcException(idx, meta_tokens, message="Missing parentheses or separator")
+                raise CalcException(token.meta, meta_tokens, message="Missing parentheses or separator")
             while stack and peek(stack) != "(":
                 output_queue.append(stack.pop())  # move operator to queue
-                idx_stack.pop()
         elif token in operators:
             if stack:  # if stack's not empty
                 c_token_prc = get_token_prop(token, 'prc')
                 while should_move_to_queue(stack, c_token_prc):
                     output_queue.append(stack.pop())  # move operator to queue
-                    idx_stack.pop()
             stack.append(token)  # add operator to stack
-            idx_stack.append(idx)
         elif token == '(':
             stack.append(token)  # add open paren to stack
-            idx_stack.append(idx)
         elif token == ')':
             if not stack or '(' not in stack:
-                raise CalcException(idx, meta_tokens, message="Missing open paren(s)")
+                raise CalcException(token.meta, meta_tokens, message="Missing open paren(s)")
             while peek(stack) != '(':
                 output_queue.append(stack.pop())  # move operator or function to queue
-                idx_stack.pop()
             if peek(stack) == '(':
                 stack.pop()  # discard open paren
-                idx_stack.pop()
     while stack:  # move the rest of the stack to the queue
         if peek(stack) in priorities:
-            raise CalcException(peek(idx_stack), meta_tokens, message="Missing close paren(s)")
+            raise CalcException(peek(stack).meta, meta_tokens, message="Missing close paren(s)")
         output_queue.append(stack.pop())
-        idx_stack.pop()
     return output_queue

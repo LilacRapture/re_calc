@@ -47,15 +47,29 @@ class TestParserExceptions(unittest.TestCase):
         expr = "(1 + 2) - 3)) * 4 / 5)"
         tokens_list = parser.tokenize(expr)
         result = exceptions.catch_calc_errors(lambda: shunting_yard.infix_to_rpn(tokens_list))
-        print('\n' + result['error_location'])
         self.assertEqual('error', result['status'])
 
     def test_catch_right_paren_exception(self):
         expr = "(1 + 2 (- 3) * 4 / 5 (4 (4 ()"
         tokens_list = parser.tokenize(expr)
         result = exceptions.catch_calc_errors(lambda: shunting_yard.infix_to_rpn(tokens_list))
-        print('\n' + result['error_location'])
         self.assertEqual('error', result['status'])
+
+    def test_catch_parser_exception_normal_int(self):
+        expr = "0.5 + 0.5"
+        tokens_list = parser.tokenize(expr)
+        rpn_list = shunting_yard.infix_to_rpn(tokens_list)
+        result = exceptions.catch_calc_errors(lambda: stack_machine.calculate(rpn_list))
+        self.assertEqual('success', result['status'])
+        self.assertEqual('1', result['result'])
+
+    def test_catch_parser_exception_normal_float(self):
+        expr = "1.0 + 0.5"
+        tokens_list = parser.tokenize(expr)
+        rpn_list = shunting_yard.infix_to_rpn(tokens_list)
+        result = exceptions.catch_calc_errors(lambda: stack_machine.calculate(rpn_list))
+        self.assertEqual('success', result['status'])
+        self.assertEqual('1.5', result['result'])
 
 class TestStackMachineExceptions(unittest.TestCase):
 

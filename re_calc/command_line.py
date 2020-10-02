@@ -7,5 +7,5 @@ def process_args(args):
     _, *expression_list = args
     expression = " ".join(expression_list)
     tokens = expression_parser.tokenize(expression)
-    rpn_list = shunting_yard.infix_to_prn(tokens)
+    rpn_list = shunting_yard.infix_to_rpn(tokens)
     return stack_machine.calculate(rpn_list)

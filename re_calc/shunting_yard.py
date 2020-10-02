@@ -47,7 +47,7 @@ def arity_is_valid(fn_token, rest_tokens):
 
 
 # Shunting yard algorithm
-def infix_to_prn(tokens):
+def infix_to_rpn(tokens):
     output_queue = list()
     stack = list()
     idx_stack = list()  # keeps input queue token indices

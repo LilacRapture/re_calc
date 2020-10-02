@@ -11,7 +11,7 @@ def get_arity(fun):
 def calculate(rpn_list):
     stack = list()
     for token in rpn_list:
-        if type(token) is float:
+        if isinstance(token, float):
             stack.append(token)
         else:
             properties = token_properties.get(token)

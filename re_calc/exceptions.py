@@ -42,7 +42,7 @@ def get_error_location(token_position, tokens_list):
 
 def catch_calc_errors(f):
     try:
-        return {'result': f(),
+        return {'result': process_float_token(f()),
                 'status': 'success'}
     except CalcException as e:
         if hasattr(e, 'message') and hasattr(e, 'token_position') and hasattr(e, 'tokens_list'):

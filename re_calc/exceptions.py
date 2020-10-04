@@ -12,6 +12,7 @@ class CalcException(Exception):
         self.message = message
         super().__init__(self.message)
 
+
 class MathException(Exception):
     """
     Attribute:
@@ -21,6 +22,7 @@ class MathException(Exception):
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
+
 
 def process_float_token(token):
     if isinstance(token, float):

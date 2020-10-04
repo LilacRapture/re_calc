@@ -1,5 +1,7 @@
 import re_calc.stack_machine as stack_machine
-from re_calc.exceptions import MathException
+from re_calc.exceptions import MathException, CalcException
+from re_calc.meta_containers import set_meta_indices
+
 import unittest
 
 
@@ -64,4 +66,9 @@ class TestStackMachine(unittest.TestCase):
     def test_log_error(self):
         rpn_list = [-1.0, 1.0, 'log']
         with self.assertRaisesRegex(MathException, "Out of log function domain"):
+            stack_machine.calculate(rpn_list)
+
+    def test_invalid_expression(self):
+        rpn_list = set_meta_indices([1.0, '+', '+'])
+        with self.assertRaisesRegex(CalcException, "Invalid expression"):
             stack_machine.calculate(rpn_list)

@@ -68,7 +68,17 @@ class TestStackMachine(unittest.TestCase):
         with self.assertRaisesRegex(MathException, "Out of log function domain"):
             stack_machine.calculate(rpn_list)
 
-    def test_invalid_expression(self):
+    def test_invalid_expression_operators(self):
         rpn_list = set_meta_indices([1.0, '+', '+'])
+        with self.assertRaisesRegex(CalcException, "Invalid expression"):
+            stack_machine.calculate(rpn_list)
+
+    def test_invalid_expression_operands(self):
+        rpn_list = set_meta_indices([1.0, 1.0, 1.0, '+'])
+        with self.assertRaisesRegex(CalcException, "Invalid expression"):
+            stack_machine.calculate(rpn_list)
+
+    def test_invalid_expression_operands_reverse(self):
+        rpn_list = set_meta_indices(['+', 1.0, 1.0, 1.0])
         with self.assertRaisesRegex(CalcException, "Invalid expression"):
             stack_machine.calculate(rpn_list)

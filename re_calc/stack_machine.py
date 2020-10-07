@@ -37,5 +37,7 @@ def calculate(rpn_list):
             except ValueError as e:
                 if token == 'log':
                     raise MathException(message="Out of log function domain")
-
+    if len(stack) > 1:
+        error_token = stack[-2]
+        raise CalcException(error_token.meta, [], message = "Invalid expression")
     return stack.pop()

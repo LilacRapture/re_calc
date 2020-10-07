@@ -53,6 +53,7 @@ def infix_to_rpn(tokens):
     meta_tokens = meta_containers.set_meta_indices(tokens)
     output_queue = list()
     stack = list()
+    # TODO: remove indices because of META!
     for idx, token in enumerate(meta_tokens):
         if is_number(token):
             output_queue.append(token)  # add number to queue

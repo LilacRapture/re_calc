@@ -45,13 +45,13 @@ class TestShuntingYard(unittest.TestCase):
         expr = "1 + log(27 , 3 , 4, 5)  * 3"
         tokens_list = tokenize(expr)
         with self.assertRaisesRegex(CalcException, "Invalid arity"):
-            print(shunting_yard.infix_to_rpn(tokens_list), 'actual list')
+            shunting_yard.infix_to_rpn(tokens_list), 'actual list'
 
     def test_missing_fn_args(self):
         expr = "1 + log 27 , 3 * 3"
         tokens_list = tokenize(expr)
         with self.assertRaisesRegex(CalcException, "Missing function args"):
-            print(shunting_yard.infix_to_rpn(tokens_list), 'actual list')
+            shunting_yard.infix_to_rpn(tokens_list), 'actual list'
 
     def test_mismatched_parens_right(self):
         expr = "(1 + 2 (- 3) * 4 / 5 (4 (4 ("
@@ -106,7 +106,7 @@ class TestShuntingYard(unittest.TestCase):
         expr_2 = "+ 1 1 1 1"
         tokens_list = tokenize(expr)
         output_queue = shunting_yard.infix_to_rpn(tokens_list)
-        print(output_queue)
+        #print(output_queue)
         tokens_list_2 = tokenize(expr_2)
         output_queue_2 = shunting_yard.infix_to_rpn(tokens_list_2)
-        print(output_queue_2)
+        #print(output_queue_2)

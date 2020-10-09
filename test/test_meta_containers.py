@@ -12,7 +12,7 @@ class TestMetaContainers(unittest.TestCase):
         result = string_with_meta + "!"
         self.assertEqual("str!", result)
         self.assertEqual(meta_data, string_with_meta.meta)
-        lst = [string_with_meta]
+        lst = list(string_with_meta)
         lst.append("other element")
         self.assertEqual(meta_data, lst[0].meta)
 
@@ -23,12 +23,12 @@ class TestMetaContainers(unittest.TestCase):
         result = float_with_meta + 1.0
         self.assertEqual(2.0, result)
         self.assertEqual(meta_data, float_with_meta.meta)
-        lst = [float_with_meta]
+        lst = list(float_with_meta)
         lst.append("other element")
         self.assertEqual(meta_data, lst[0].meta)
 
     def test_pack(self):
-        packed_int = meta_containers.pack(1,"some meta")
+        packed_int = meta_containers.pack(1, "some meta")
         packed_float = meta_containers.pack(1.0, "some meta 2")
         packed_str = meta_containers.pack("str", "some meta 3")
         self.assertTrue(isinstance(packed_int, int))
@@ -39,7 +39,13 @@ class TestMetaContainers(unittest.TestCase):
 
     def test_set_meta_indices(self):
         lst = [1, 1.0, "str"]
-        [o_int, m_float, m_strting] = meta_containers.set_meta_indices(lst)
+        [o_int, m_float, m_string] = meta_containers.set_meta_indices(lst)
         self.assertTrue(isinstance(o_int, int))
         self.assertEqual(1, m_float.meta)
-        self.assertEqual(2, m_strting.meta)
+        self.assertEqual(2, m_string.meta)
+
+    def test_set_meta_list(self):
+        lst = [1, 1.0, "str"]
+        result = meta_containers.pack_list(lst, 'string')
+        self.assertTrue(isinstance(result, list))
+        self.assertEqual('string', result.meta)

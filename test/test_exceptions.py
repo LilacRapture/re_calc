@@ -2,6 +2,7 @@ import re_calc.exceptions as exceptions
 import re_calc.shunting_yard as shunting_yard
 import re_calc.stack_machine as stack_machine
 import re_calc.expression_parser as parser
+
 from re_calc.exceptions import CalcException
 
 import unittest
@@ -20,7 +21,7 @@ class TestExceptions(unittest.TestCase):
     def test_catch_calc_exceptions(self):
         result = exceptions.catch_calc_errors(excepting_function)
         expression_line = '1 + 2.1 - 23'
-        padding_line    = '          ^'
+        padding_line = '          ^'
         expected_location = expression_line + '\n' + padding_line
         self.assertEqual(expected_location, result['error_location'])
 
@@ -71,11 +72,11 @@ class TestParserExceptions(unittest.TestCase):
         self.assertEqual('success', result['status'])
         self.assertEqual('1.5', result['result'])
 
+
 class TestStackMachineExceptions(unittest.TestCase):
 
     def test_catch_division_by_zero(self):
         rpn_list = [1.0, 0.0, '/']
         result = exceptions.catch_calc_errors(lambda: stack_machine.calculate(rpn_list))
-        print("res", result)
         self.assertEqual('error', result['status'])
         self.assertEqual('Division by zero', result['message'])

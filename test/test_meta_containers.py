@@ -12,7 +12,7 @@ class TestMetaContainers(unittest.TestCase):
         result = string_with_meta + "!"
         self.assertEqual("str!", result)
         self.assertEqual(meta_data, string_with_meta.meta)
-        lst = list(string_with_meta)
+        lst = [string_with_meta]
         lst.append("other element")
         self.assertEqual(meta_data, lst[0].meta)
 
@@ -23,7 +23,7 @@ class TestMetaContainers(unittest.TestCase):
         result = float_with_meta + 1.0
         self.assertEqual(2.0, result)
         self.assertEqual(meta_data, float_with_meta.meta)
-        lst = list(float_with_meta)
+        lst = [float_with_meta]
         lst.append("other element")
         self.assertEqual(meta_data, lst[0].meta)
 

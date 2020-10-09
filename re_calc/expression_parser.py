@@ -81,6 +81,6 @@ def tokenize(expression):
                 combined_token_list = combine_unary_sign(output_queue)
                 combined_token_list.append(parsing_expression)
                 error_tokens = combined_token_list
-                token_position = len(combined_token_list)
+                token_position = len(combined_token_list) - 1
                 raise CalcException(token_position, error_tokens, message='Unknown token')
     return combine_unary_sign(output_queue)

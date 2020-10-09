@@ -89,4 +89,4 @@ def infix_to_rpn(tokens):
         if peek(stack) in priorities:
             raise CalcException(peek(stack).meta, meta_tokens, message="Missing close paren(s)")
         output_queue.append(stack.pop())
-    return meta_containers.pack_list(output_queue, 'tokens')
+    return meta_containers.pack_list(output_queue, tokens)

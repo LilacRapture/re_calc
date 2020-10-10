@@ -1,4 +1,6 @@
 [run]
+source=
+    re_calc/*
 omit =
 # omit tests from report
     *test*

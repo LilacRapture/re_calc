@@ -18,6 +18,8 @@ jobs:
         pip install coverage
         python -m coverage run -m unittest
         python -m coverage html
+    - name: Print wd content
+      run: ls .
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:

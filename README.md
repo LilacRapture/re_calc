@@ -1,6 +1,6 @@
 # re_calc
 ![test](https://github.com/LilacRapture/re_calc/workflows/test/badge.svg?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/badges/shields/badge.svg?branch=master)](https://coveralls.io/github/badges/shields?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/LilacRapture/re_calc/badge.svg?branch=master)](https://coveralls.io/github/LilacRapture/re_calc?branch=master)
 
 Reimagined calculator.
 Learning project.

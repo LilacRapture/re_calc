@@ -29,9 +29,3 @@ jobs:
       run: |
         pip install coveralls
         python -m coveralls
-    - name: Print wd content
-      run: ls
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}

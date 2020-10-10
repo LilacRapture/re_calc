@@ -24,6 +24,8 @@ jobs:
         name: code-coverage-report
         path: htmlcov
     - name: Install Coveralls
+      env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         pip install coveralls
         python -m coveralls

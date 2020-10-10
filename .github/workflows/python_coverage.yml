@@ -25,10 +25,7 @@ jobs:
         path: htmlcov
     - name: Print wd content
       run: ls .
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
       with:
-        file: ./.coverage
-        flags: unittests
-        env_vars: OS,PYTHON
-        fail_ci_if_error: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}

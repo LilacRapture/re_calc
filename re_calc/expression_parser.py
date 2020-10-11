@@ -40,14 +40,8 @@ def combine_unary_sign(tokens_list):
             if token == '-' and is_number(next_token):
                 output_queue.append(next_token * (-1))
                 tokens_list.pop(0)
-            elif token == '+' and is_number(next_token):
-                output_queue.append(next_token)
-                tokens_list.pop(0)
             elif token == '-' and next_token in functions:
                 output_queue.extend([-1, '*', next_token])
-                tokens_list.pop(0)
-            elif token == '+' and next_token in functions:
-                output_queue.append(next_token)
                 tokens_list.pop(0)
             else:
                 output_queue.append(token)

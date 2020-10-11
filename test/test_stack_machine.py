@@ -13,11 +13,6 @@ class TestStackMachine(unittest.TestCase):
         expected_result = 1.0
         self.assertEqual(expected_result, result)
 
-    def test_not_implemented_op(self):
-        rpn_list = [1.0, 2.0, '$', 3.0, '/']
-        with self.assertRaisesRegex(NameError, r'Not implemented: \$'):
-            stack_machine.calculate(rpn_list)
-
     def test_right_associativity(self):
         rpn_list = [1.0, 1.0, '+', 2.0, '^']
         result = stack_machine.calculate(rpn_list)

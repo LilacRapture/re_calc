@@ -3,12 +3,14 @@ class CalcException(Exception):
     Attributes:
         token_position -- position of the token caused the error
         tokens_list
+        loc_string -- localization string
         message -- explanation
     """
 
-    def __init__(self, token_position, tokens_list, message):
+    def __init__(self, token_position, tokens_list, message, loc_string=None):
         self.token_position = token_position
         self.tokens_list = tokens_list
+        self.loc_string = loc_string
         self.message = message
         super().__init__(self.message)
 
@@ -17,9 +19,12 @@ class MathException(Exception):
     """
     Attribute:
         message -- explanation
+        loc_string -- localization string
+
     """
 
-    def __init__(self, message):
+    def __init__(self, message, loc_string=None):
+        self.loc_string = loc_string
         self.message = message
         super().__init__(self.message)
 
@@ -52,8 +57,11 @@ def catch_calc_errors(f):
                     'token_position': e.token_position,
                     'tokens_list': e.tokens_list,
                     'error_location': get_error_location(e.token_position, e.tokens_list),
+                    'loc_string': e.loc_string,
                     'status': 'error'}
+
     except (MathException, Exception) as e:
         if hasattr(e, 'message'):
             return {'message': e.message,
+                    'loc_string': e.loc_string,
                     'status': 'error'}

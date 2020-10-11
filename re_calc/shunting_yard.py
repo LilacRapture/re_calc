@@ -60,13 +60,25 @@ def infix_to_rpn(tokens):
             n_token_idx = token.meta + 1
             if ((n_token_idx > len(meta_tokens) - 1)
                     or (meta_tokens[n_token_idx] != "(")):
-                raise CalcException(token.meta, meta_tokens, message="Missing function args")
+                raise CalcException(
+                    token.meta,
+                    meta_tokens,
+                    message="Missing function args",
+                    loc_string="t:missing_fn_args")
             if not arity_is_valid(token, meta_tokens[token.meta + 1:]):
-                raise CalcException(token.meta, meta_tokens, message="Invalid arity")
+                raise CalcException(
+                    token.meta,
+                    meta_tokens,
+                    message="Invalid arity",
+                    loc_string="t:invalid_arity")
             stack.append(token)  # add function to stack
         elif token in separators:
             if not stack or '(' not in stack:
-                raise CalcException(token.meta, meta_tokens, message="Missing parentheses or separator")
+                raise CalcException(
+                    token.meta,
+                    meta_tokens,
+                    message="Missing parentheses or separator",
+                    loc_string="t:missing_separtor")
             while stack and peek(stack) != "(":
                 output_queue.append(stack.pop())  # move operator to queue
         elif token in operators:
@@ -79,13 +91,21 @@ def infix_to_rpn(tokens):
             stack.append(token)  # add open paren to stack
         elif token == ')':
             if not stack or '(' not in stack:
-                raise CalcException(token.meta, meta_tokens, message="Missing open paren(s)")
+                raise CalcException(
+                    token.meta,
+                    meta_tokens,
+                    message="Missing open paren(s)",
+                    loc_string="t:missing_l_paren")
             while peek(stack) != '(':
                 output_queue.append(stack.pop())  # move operator or function to queue
             if peek(stack) == '(':
                 stack.pop()  # discard open paren
     while stack:  # move the rest of the stack to the queue
         if peek(stack) in priorities:
-            raise CalcException(peek(stack).meta, meta_tokens, message="Missing close paren(s)")
+            raise CalcException(
+                peek(stack).meta,
+                meta_tokens,
+                message="Missing close paren(s)",
+                loc_string="t:missing_r_paren")
         output_queue.append(stack.pop())
     return meta_containers.pack_list(output_queue, tokens)

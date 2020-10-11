@@ -53,16 +53,15 @@ def infix_to_rpn(tokens):
     meta_tokens = meta_containers.set_meta_indices(tokens)
     output_queue = list()
     stack = list()
-    # TODO: remove indices because of META!
-    for idx, token in enumerate(meta_tokens):
+    for token in meta_tokens:
         if is_number(token):
             output_queue.append(token)  # add number to queue
         elif token in functions:
-            n_token_idx = idx + 1
+            n_token_idx = token.meta + 1
             if ((n_token_idx > len(meta_tokens) - 1)
                     or (meta_tokens[n_token_idx] != "(")):
                 raise CalcException(token.meta, meta_tokens, message="Missing function args")
-            if not arity_is_valid(token, meta_tokens[idx + 1:]):
+            if not arity_is_valid(token, meta_tokens[token.meta + 1:]):
                 raise CalcException(token.meta, meta_tokens, message="Invalid arity")
             stack.append(token)  # add function to stack
         elif token in separators:

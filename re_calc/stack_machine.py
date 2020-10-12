@@ -32,7 +32,7 @@ def calculate(rpn_list):
                     token.meta,
                     safe_get_meta(rpn_list),
                     message="Invalid expression",
-                    loc_string="t:invalid_expr")
+                    loc_string="t_invalid_expr")
             for k in range(arity):
                 args.append(stack.pop())
             if not every(is_float, args):
@@ -40,24 +40,24 @@ def calculate(rpn_list):
                     token.meta,
                     safe_get_meta(rpn_list),
                     message="Invalid expression",
-                    loc_string="t:invalid_expr")
+                    loc_string="t_invalid_expr")
             args.reverse()
             try:
                 stack.append(op_function(*args))
             except ZeroDivisionError:
                 raise MathException(
                     message="Division by zero",
-                    loc_string="t:division_by_0")
+                    loc_string="t_division_by_0")
             except ValueError:
                 if token == 'log':
                     raise MathException(
                         message="Out of log function domain",
-                        loc_string="t:log_fn_domain_error")
+                        loc_string="t_log_fn_domain_error")
     if len(stack) > 1:
         error_token = stack[-2]
         raise CalcException(
             error_token.meta,
              safe_get_meta(rpn_list),
              message="Invalid expression",
-             loc_string="t:invalid_expr")
+             loc_string="t_invalid_expr")
     return stack.pop()

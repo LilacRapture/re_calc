@@ -64,13 +64,13 @@ def infix_to_rpn(tokens):
                     token.meta,
                     meta_tokens,
                     message="Missing function args",
-                    loc_string="t:missing_fn_args")
+                    loc_string="t_missing_fn_args")
             if not arity_is_valid(token, meta_tokens[token.meta + 1:]):
                 raise CalcException(
                     token.meta,
                     meta_tokens,
                     message="Invalid arity",
-                    loc_string="t:invalid_arity")
+                    loc_string="t_invalid_arity")
             stack.append(token)  # add function to stack
         elif token in separators:
             if not stack or '(' not in stack:
@@ -78,7 +78,7 @@ def infix_to_rpn(tokens):
                     token.meta,
                     meta_tokens,
                     message="Missing parentheses or separator",
-                    loc_string="t:missing_separtor")
+                    loc_string="t_missing_separtor")
             while stack and peek(stack) != "(":
                 output_queue.append(stack.pop())  # move operator to queue
         elif token in operators:
@@ -95,7 +95,7 @@ def infix_to_rpn(tokens):
                     token.meta,
                     meta_tokens,
                     message="Missing open paren(s)",
-                    loc_string="t:missing_l_paren")
+                    loc_string="t_missing_l_paren")
             while peek(stack) != '(':
                 output_queue.append(stack.pop())  # move operator or function to queue
             if peek(stack) == '(':
@@ -106,6 +106,6 @@ def infix_to_rpn(tokens):
                 peek(stack).meta,
                 meta_tokens,
                 message="Missing close paren(s)",
-                loc_string="t:missing_r_paren")
+                loc_string="t_missing_r_paren")
         output_queue.append(stack.pop())
     return meta_containers.pack_list(output_queue, tokens)

@@ -80,5 +80,5 @@ def tokenize(expression):
                     token_position,
                     error_tokens,
                     message='Unknown token',
-                    loc_string="t:unknown_token")
+                    loc_string="t_unknown_token")
     return combine_unary_sign(output_queue)

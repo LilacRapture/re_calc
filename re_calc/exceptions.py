@@ -41,8 +41,8 @@ def get_error_location(token_position, tokens_list):
     expression_line = ' '.join(string_token_list)
 
     processed_tokens = string_token_list[:token_position]
-    token_lenghts = list(map(lambda token: len(token) + 1, processed_tokens))
-    padds_count = sum(token_lenghts)
+    token_lengths = list(map(lambda token: len(token) + 1, processed_tokens))
+    padds_count = sum(token_lengths)
     padds_line = ' ' * padds_count + '^'
     return expression_line + '\n' + padds_line
 

@@ -66,3 +66,13 @@ class TestParsing(unittest.TestCase):
         result = parser.combine_unary_sign(tokens_list)
         expected_list = [-1, '*', 'sqrt', '(', 4.0, ')']
         self.assertEqual(expected_list, result)
+
+    def test_tokenize_nums(self):
+        expr = "1 1 1 1 +"
+        expr_2 = "+ 1 1 1 1"
+        tokens_list = parser.tokenize(expr)
+        tokens_list_2 = parser.tokenize(expr_2)
+        expected_list = [1.0, 1.0, 1.0, 1.0, '+']
+        expected_list_2 = ['+', 1.0, 1.0, 1.0, 1.0]
+        self.assertEqual(expected_list, tokens_list)
+        self.assertEqual(expected_list_2, tokens_list_2)

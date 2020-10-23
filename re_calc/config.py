@@ -1,6 +1,7 @@
 from math import log
 
-# literal: {prc: precedence, assoc: associativity, fun: function, type: type}
+# literal: {prc: precedence, assoc: associativity, fun: function,
+# type: type, loc_string: description}
 token_properties = {
     '(': {'prc': 0,
           'type': "paren"},
@@ -9,37 +10,45 @@ token_properties = {
     '+': {'prc': 1,
           'assoc': 'left',
           'fun': lambda a, b: a + b,
-          'type': "operator"},
+          'type': "operator",
+          'loc_string': "t_plus"},
     '-': {'prc': 1,
           'assoc': 'left',
           'fun': lambda a, b: a - b,
-          'type': "operator"},
+          'type': "operator",
+          'loc_string': "t_minus"},
     '*': {'prc': 2,
           'assoc': 'left',
           'fun': lambda a, b: a * b,
-          'type': "operator"},
+          'type': "operator",
+          'loc_string': "t_multiply"},
     '/': {'prc': 2,
           'assoc': 'left',
           'fun': lambda a, b: a / b,
-          'type': "operator"},
+          'type': "operator",
+          'loc_string': "t_divide"},
     '^': {'prc': 3,
           'assoc': 'right',
           'fun': lambda a, b: a ** b,
-          'type': "operator"},
+          'type': "operator",
+          'loc_string': "t_power"},
     ',': {'prc': 0,
           'type': "separator"},
     'log': {'prc': 4,
             'assoc': 'left',
             'fun': lambda a, b: log(a, b),
-            'type': "function"},
+            'type': "function",
+            'loc_string': "t_logarithm"},
     'sqrt': {'prc': 4,
              'assoc': 'left',
              'fun': lambda a: a ** 0.5,
-             'type': "function"},
+             'type': "function",
+             'loc_string': "t_square_root"},
     'abs': {'prc': 4,
             'assoc': 'left',
             'fun': lambda a: abs(a),
-            'type': "function"}}
+            'type': "function"},
+            'loc_string': "t_absolute_value"}
 
 
 def tokens_by_type(properties, token_type):

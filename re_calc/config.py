@@ -47,8 +47,8 @@ token_properties = {
     'abs': {'prc': 4,
             'assoc': 'left',
             'fun': lambda a: abs(a),
-            'type': "function"},
-            'loc_string': "t_absolute_value"}
+            'type': "function",
+            'loc_string': "t_absolute_value"}}
 
 
 def tokens_by_type(properties, token_type):

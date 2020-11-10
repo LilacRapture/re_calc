@@ -42,7 +42,7 @@ class TestShuntingYard(unittest.TestCase):
         self.assertEqual(expected_list, output_queue)
 
     def test_invalid_arity(self):
-        expr = "1 + log(27 , 3 , 4, 5)  * 3"
+        expr = "1 + log(27, 3, 4, 5)  * 3"
         tokens_list = tokenize(expr)
         with self.assertRaisesRegex(CalcException, "Invalid arity"):
             shunting_yard.infix_to_rpn(tokens_list), 'actual list'

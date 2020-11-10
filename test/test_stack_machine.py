@@ -37,6 +37,31 @@ class TestStackMachine(unittest.TestCase):
         expected_result = 81.0
         self.assertEqual(expected_result, result)
 
+    def test_sin(self):
+        rpn_list = [30.0, 'sin']
+        result = stack_machine.calculate(rpn_list)
+        self.assertEqual(-0.9880316240928618, result)
+
+    def test_cos(self):
+        rpn_list = [30.0, 'cos']
+        result = stack_machine.calculate(rpn_list)
+        self.assertEqual(0.15425144988758405, result)
+
+    def test_tan(self):
+        rpn_list = [30.0, 'tan']
+        result = stack_machine.calculate(rpn_list)
+        self.assertEqual(-6.405331196646276, result)
+
+    def test_atan(self):
+        rpn_list = [30.0, 'atan']
+        result = stack_machine.calculate(rpn_list)
+        self.assertEqual(1.5374753309166493, result)
+
+    def test_factorial(self):
+        rpn_list = [10.0, 'factorial']
+        result = stack_machine.calculate(rpn_list)
+        self.assertEqual(3628800, result)
+
     def test_get_arity(self):
         def fun_two_args(a, b): return a + b
         def fun_three_args(a, b, c): return a ** 2 + b ** 2 == c ** 2

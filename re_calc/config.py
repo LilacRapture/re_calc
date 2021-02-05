@@ -1,7 +1,7 @@
 from math import log, sin, cos, tan, atan, factorial
 
-# literal: {prc: precedence, assoc: associativity, fun: function,
-# type: type, loc_string: description}
+'''literal: {prc: precedence, assoc: associativity, fun: function,
+type: type, loc_string: description}'''
 token_properties = {
     '(': {'prc': 0,
           'type': "paren"},

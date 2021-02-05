@@ -2,8 +2,13 @@ import re_calc.expression_parser as expression_parser
 import re_calc.shunting_yard as shunting_yard
 import re_calc.stack_machine as stack_machine
 
+from typing import List
 
-def process_args(args):
+
+def process_args(args: List[str]) -> float:
+    ''' Entry point for command line usage. The function accepts math problem
+    from command line. Returns a solution for that problem.
+    '''
     _, *expression_list = args
     expression = " ".join(expression_list)
     tokens = expression_parser.tokenize(expression)

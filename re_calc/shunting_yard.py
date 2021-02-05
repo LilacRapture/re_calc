@@ -1,15 +1,22 @@
 from re_calc.config import *
 from re_calc.exceptions import CalcException
 from re_calc.util import is_number
-
 import re_calc.meta_containers as meta_containers
+
+from typing import List, Callable, Union
+
+
+Token = Union[str, float]
 
 
 def peek(stack):
     return stack[-1]
 
 
-def should_move_to_queue(stack, c_token_prc):
+def should_move_to_queue(stack: List[Token], c_token_prc: int) -> bool:
+    ''' Checks token's precedence and associativity to decide if it should be
+    moved to the queue.
+    '''
     if stack:
         s_token = peek(stack)
         s_token_prc = get_token_prop(s_token, 'prc')
@@ -22,12 +29,15 @@ def should_move_to_queue(stack, c_token_prc):
         return False
 
 
-# Use function meta data to get args count
-def get_arity(fun):
+def get_arity(fun: Callable) -> int:
+    ''' Inspects function code object to get args count.
+    '''
     return fun.__code__.co_argcount
 
 
-def arity_is_valid(fn_token, rest_tokens):
+def arity_is_valid(fn_token: str, rest_tokens: List[Token]) -> bool:
+    ''' Checks whether a function arguments list is valid.
+    '''
     paren_balance = 1
     properties = token_properties.get(fn_token)
     op_function = properties.get('fun')
@@ -48,8 +58,9 @@ def arity_is_valid(fn_token, rest_tokens):
     return expected_separator_count == separator_count
 
 
-# Shunting yard algorithm
-def infix_to_rpn(tokens):
+def infix_to_rpn(tokens: List[Token]) -> List[Token]:
+    ''' Shunting yard algorithm implementation.
+    '''
     meta_tokens = meta_containers.set_meta_indices(tokens)
     output_queue = list()
     stack = list()

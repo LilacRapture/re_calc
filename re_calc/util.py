@@ -1,7 +1,5 @@
-from typing import Callable
-from collections.abc import Collection
 
-def is_number(number: str) -> bool:
+def is_number(number):
     ''' Checks whether a string is valid to be parsed as number.
     '''
     try:
@@ -11,7 +9,7 @@ def is_number(number: str) -> bool:
         return False
 
 
-def every(pred: Callable, coll: Collection):
+def every(pred, coll):
     ''' Checks if all the members of the collection match the predicate.
     '''
     res_list = [pred(x) for x in coll]

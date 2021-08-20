@@ -2,7 +2,6 @@ from re_calc.config import control_tokens, operators, functions
 from re_calc.util import is_number
 from re_calc.exceptions import CalcException
 
-from typing import Tuple, List, Union
 import re
 
 
@@ -13,7 +12,7 @@ float_regex = r"(\d+\.\d+)"
 NUMBER_REGEX = r"|".join([float_regex, tech_fractional_float, integer_regex])
 
 
-def slice_by_pattern(pattern: str, input_expr: str) -> Tuple[str, str]:
+def slice_by_pattern(pattern, input_expr):
     ''' Slices the matching part of the string using regex. Returns the matching
     part and the remaining string, if pattern doesn't match returns None.
     '''
@@ -24,7 +23,7 @@ def slice_by_pattern(pattern: str, input_expr: str) -> Tuple[str, str]:
         return input_expr[start_idx:end_idx], input_expr[end_idx:]
 
 
-def slice_by_string(prefix: str, input_expr: str) -> Tuple[str, str]:
+def slice_by_string(prefix, input_expr):
     ''' If string begins with some prefix (control tokens), returns prefix and
     remaining string tuple.
     '''
@@ -33,7 +32,7 @@ def slice_by_string(prefix: str, input_expr: str) -> Tuple[str, str]:
         return prefix, input_expr[chars_to_cut:]
 
 
-def combine_unary_sign(tokens: List[Union[float, str]]) -> List[Union[float, str]]:
+def combine_unary_sign(tokens):
     ''' Combines unary signs with adjacent value.
     '''
     output_queue = list()
@@ -55,7 +54,7 @@ def combine_unary_sign(tokens: List[Union[float, str]]) -> List[Union[float, str
     return output_queue + tokens
 
 
-def tokenize(expression: str) -> List[Union[float, str]]:
+def tokenize(expression):
     ''' Returns tokens list with parsed floats and control tokens.
     '''
     parsing_expression = expression.strip()

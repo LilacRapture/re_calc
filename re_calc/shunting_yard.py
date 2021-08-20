@@ -3,17 +3,11 @@ from re_calc.exceptions import CalcException
 from re_calc.util import is_number
 import re_calc.meta_containers as meta_containers
 
-from typing import List, Callable, Union
-
-
-Token = Union[str, float]
-
-
 def peek(stack):
     return stack[-1]
 
 
-def should_move_to_queue(stack: List[Token], c_token_prc: int) -> bool:
+def should_move_to_queue(stack, c_token_prc):
     ''' Checks token's precedence and associativity to decide if it should be
     moved to the queue.
     '''
@@ -29,13 +23,13 @@ def should_move_to_queue(stack: List[Token], c_token_prc: int) -> bool:
         return False
 
 
-def get_arity(fun: Callable) -> int:
+def get_arity(fun):
     ''' Inspects function code object to get args count.
     '''
     return fun.__code__.co_argcount
 
 
-def arity_is_valid(fn_token: str, rest_tokens: List[Token]) -> bool:
+def arity_is_valid(fn_token, rest_tokens):
     ''' Checks whether a function arguments list is valid.
     '''
     paren_balance = 1
@@ -58,7 +52,7 @@ def arity_is_valid(fn_token: str, rest_tokens: List[Token]) -> bool:
     return expected_separator_count == separator_count
 
 
-def infix_to_rpn(tokens: List[Token]) -> List[Token]:
+def infix_to_rpn(tokens):
     ''' Shunting yard algorithm implementation.
     '''
     meta_tokens = meta_containers.set_meta_indices(tokens)

@@ -71,7 +71,7 @@ token_properties = {
             'loc_string': "t_atan"},
     'factorial': {'prc': 4,
             'assoc': 'left',
-            'fun': lambda a: factorial(a),
+            'fun': lambda a: factorial(int(a)),
             'type': "function",
             'loc_string': "t_factorial"}}
 
